@@ -1,7 +1,7 @@
-# A Guilded Bot for the text-based MMORPG Torn City
+# A Discord Bot for the text-based MMORPG Torn City
 
 # Introduction
-This is a very simple self-hosted bot for the social platform Guilded to help you fetch information out of the game and monitor several statistics.
+This is a very simple self-hosted bot for the social platform Discord to help you fetch information out of the game and monitor several statistics.
 ## Installation
 This project is mainly coded in python, the repository includes both a list of needed python packages in the file `requirements.txt` and a python environment with all needed packages, the releases page will contain a file that can run as long as you have python installed as well. Documentation on how to configure the bot will be added once we have established what to configure
 ## Donating
