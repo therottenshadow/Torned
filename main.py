@@ -8,6 +8,19 @@ import random
 ConfigFile = configparser.ConfigParser()
 ConfigFile.read('config_dev.ini')
 
+ApiTranslate = {
+  "name":"Name",
+  "description":"Description",
+  "effect":"Effect",
+  "requirement":"Requirement",
+  "type":"Type",
+  "weapon_type":"Weapon Type",
+  "buy_price":"Buy Price",
+  "sell_price":"Sell Price",
+  "market_value":"Market Value",
+  "circulation":"Circulation"
+}
+
 #put it inside a try..except to catch any possible errors
 try:
 	Config = {
@@ -37,41 +50,53 @@ class ItemList:
 				ResultList.append({Item:self.Dic[Item]})
 		return ResultList
 	def SearchById(self,Id: str):
-		return self.Dic[Id]
+		return {Id:self.Dic[Id]}
+
+def SearchResultEmbedConstructor(ResultList):
+	ResultingEmbed = {"Message":"","ImageUrl":""}
+	for Result in ResultList:
+		for ResultId in Result:
+			for x in Result[ResultId]:
+				if x == "image" and ResultingEmbed["ImageUrl"] == "":
+					ResultingEmbed["ImageUrl"] = Result[ResultId][x]
+				elif x == "image" and not(ResultingEmbed["ImageUrl"] == ""):
+					pass
+				elif x == "name":
+					ResultingEmbed["Message"] += f'**{Result[ResultId][x]}**\n'
+				elif not((Result[ResultId][x] is None) or (Result[ResultId][x] == "")):
+					ResultingEmbed["Message"] += f'**{ApiTranslate[x]}**: {Result[ResultId][x]}\n'
+			ResultingEmbed["Message"] += "\n"
+	return ResultingEmbed
 
 ItemDb = ItemList()
-Bot = commands.Bot(command_prefix=Config["CommandPrefix"])
+Intents = discord.Intents.default()
+Intents.message_content = True
+Bot = commands.Bot(command_prefix=Config["CommandPrefix"],intents=Intents)
 
 @Bot.command()
 async def search(ctx,*,SearchString:str=None):
 	if SearchString is None:
-		await ctx.send("It seems like you haven't given me any search parameters, wanna try that again?")
+		await ctx.reply(embed=discord.Embed(title="It seems like you haven't given me any search parameters, wanna try that again?"))
 	elif SearchString.isdigit():
 		try:
-			await ctx.send(ItemDb.SearchById(SearchString))
+			Embed = SearchResultEmbedConstructor([ItemDb.SearchById(SearchString)])
+			await ctx.reply(embed=discord.Embed(title="**Here is your search results**",description=Embed["Message"]).set_thumbnail(url=Embed["ImageUrl"]))
 		except KeyError:
-			await ctx.send("It seems like this item ID does not exist.")
+			await ctx.reply(embed=discord.Embed(title="It seems like this item ID does not exist."))
 	else:
 		if len(SearchString) >= 3:
-			ResultCounter = 0
-			ResultMsg = "This is what I have found:\n"
 			SearchResult = ItemDb.SearchByString(SearchString)
 			if len(SearchResult) == 0:
-				await ctx.send("Seems like your search didn't bring up anything")
+				await ctx.reply(embed=discord.Embed(title="Seems like your search didn't bring up anything",description="Are you sure what you searched exists?? If it is something new it can take up to 6 hours for me to acknowledge it's existence."))
 			else:
-				for Item in SearchResult:
-					if ResultCounter > 4:
-						break
-					ResultCounter += 1
-					ResultMsg += Item[[Id for Id in Item][0]]['name']
-					ResultMsg += "\n"
-				await ctx.send(ResultMsg)
+				Embed = SearchResultEmbedConstructor(SearchResult[:5])
+				await ctx.reply(embed=discord.Embed(title="**Here is your search results**",description=Embed["Message"]).set_thumbnail(url=Embed["ImageUrl"]))
 		else:
-			await ctx.send("""Your search term is too short, please don't make me
+			await ctx.send("""Your search term is too short, I am not going to
                   look through all that could turn up in that search.""")
 
 @Bot.command()
 async def ping(ctx):
-	await ctx.send('pong!')
+	await ctx.reply('pong!')
 
 Bot.run(Config["DiscordToken"])
