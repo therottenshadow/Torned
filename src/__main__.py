@@ -16,10 +16,10 @@ class GetConfig:
     self.Bot = {}
     self.ReadFromDisk()
   def DecideConfigFile(self):
-    if exists(join(Cwd,"../config_dev.json")):
-      return "../config_dev.json"
-    elif exists("../config.json"):
-      return "../config.json"
+    if exists(join(Cwd,"./config_dev.json")):
+      return "./config_dev.json"
+    elif exists("./config.json"):
+      return "./config.json"
     else:
       print("It looks like you have no config file, this code doesn't work without the needed info inside the config file. Please create 'config.json' and try again")
       exit()
