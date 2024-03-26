@@ -4,9 +4,15 @@ import configparser
 from datetime import datetime
 from TornAPIWrapper import TornApiWrapper
 import random
+from os.path import exists
 
 ConfigFile = configparser.ConfigParser()
-ConfigFile.read('config_dev.ini')
+if exists("../config_dev.ini"):
+	ConfigFile.read('../config_dev.ini')
+elif exists("./config.ini"):
+	ConfigFile.read('./config.ini')
+else:
+	print("Please create the 'config.ini' configuration file")
 
 ApiTranslate = {
   "name":"Name",

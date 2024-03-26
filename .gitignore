@@ -1,1 +1,4 @@
 config_dev.ini
+Torned.pyz
+.venv
+src/.venv
