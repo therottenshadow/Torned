@@ -1,0 +1,9 @@
+{
+  "Torn":{
+    "Torn API Key": ""
+  },
+  "Bot":{
+    "Discord Token": "",
+    "Command Prefix": ""
+  }
+}
