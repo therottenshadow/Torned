@@ -1,4 +1,4 @@
 config_dev.json
 Torned.pyz
 .venv
-src/.venv
+Pyz-Env
