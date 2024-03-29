@@ -24,8 +24,8 @@ class GetConfig:
       print("It looks like you have no config file, this code doesn't work without the needed info inside the config file. Please create 'config.json' and try again")
       exit()
   def CommitToDisk(self):
-    self.Torn = self.RawData["Torn"]
-    self.Bot = self.RawData["Bot"]
+    self.RawData["Torn"] = self.Torn
+    self.RawData["Bot"] = self.Bot
     with open(self.File,"w") as File:
       json.dump(self.RawData,File)
       File.close()
