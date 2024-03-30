@@ -2,3 +2,4 @@ config_dev.json
 Torned.pyz
 .venv
 Pyz-Env
+__pycache__
