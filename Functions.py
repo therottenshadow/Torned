@@ -1,5 +1,6 @@
 import re
 from TornAPIWrapper import TornApiWrapper
+from Classes import SanitizeError
 
 ApiTranslate = {
   "name":"Name",
@@ -36,9 +37,9 @@ def SearchResultEmbedConstructor(ResultList: list):
 def SanitizeTornKey(DirtyString: str):
   KeyRE = re.compile('[^A-Za-z0-9]')
   if not(len(DirtyString) == 16):
-    raise ValueError("IncorrectLength")
+    raise SanitizeError("IncorrectLength")
   elif KeyRE.match(DirtyString):
-    raise ValueError("IllegalCharacters")
+    raise SanitizeError("IllegalCharacters")
   else:
     try:
       TornObject = TornApiWrapper(api_key=DirtyString)
@@ -46,9 +47,9 @@ def SanitizeTornKey(DirtyString: str):
       del TornObject
       del ApiData
     except:
-      raise ValueError("InvalidKey")
+      raise SanitizeError("InvalidKey")
 
 def SanitizeSearchTerm(DirtyString: str):
   SearchTermRE = re.compile("[^A-Za-z0-9-:&/+,!?'’ ]")
   if SearchTermRE.match(DirtyString):
-    raise ValueError("IllegalCharacters")
+    raise SanitizeError("IllegalCharacters")
