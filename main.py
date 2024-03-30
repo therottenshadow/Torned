@@ -21,12 +21,10 @@ async def search(ctx,*,SearchString:str=None):
   SearchString = unidecode(SearchString)
   try:
     Functions.SanitizeSearchTerm(SearchString)
-  except ValueError as Error:
-    if str(Error) == "IllegalCharacters":
+  except Classes.SanitizeError as Error:
+    if 'IllegalCharacters' in str(Error):
       await ctx.reply(embed=discord.Embed(title="Your search contains illegal characters",description="Your input contains characters that are not allowed because they aren't part of any item's name"))
       return
-    else:
-      raise Error
   if SearchString is None:
     await ctx.reply(embed=discord.Embed(title="It seems like you haven't given me any search parameters, wanna try that again?"))
   elif SearchString.isdigit():
