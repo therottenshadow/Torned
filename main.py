@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import Functions
 import Classes
+from unidecode import unidecode
 
 #put it inside a try..except to catch any possible errors
 try:
@@ -17,6 +18,7 @@ Bot = commands.Bot(command_prefix=Config.Bot["Command Prefix"],intents=Intents)
 
 @Bot.command()
 async def search(ctx,*,SearchString:str=None):
+  SearchString = unidecode(SearchString)
   if SearchString is None:
     await ctx.reply(embed=discord.Embed(title="It seems like you haven't given me any search parameters, wanna try that again?"))
   elif SearchString.isdigit():
