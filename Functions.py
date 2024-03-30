@@ -9,7 +9,6 @@ ApiTranslate = {
   "sell_price":"Sell Price",
   "market_value":"Market Value",
   "circulation":"Circulation",
-  "coverage":"Coverage"
 }
 
 def SearchResultEmbedConstructor(ResultList):
@@ -22,7 +21,9 @@ def SearchResultEmbedConstructor(ResultList):
         elif x == "image" and not(ResultingEmbed["ImageUrl"] == ""):
           pass
         elif x == "name":
-          ResultingEmbed["Message"] += f'**{Result[ResultId][x]}**\n'
+          ResultingEmbed["Message"] += f'**{Result[ResultId][x]}**\n**Item ID**: {ResultId}\n'
+        elif x == "coverage":
+          ResultingEmbed["Message"] += f'**Coverage**:\n⠀⠀**Full Body Coverage**: {Result[ResultId][x]["Full Body Coverage"]}\n\n⠀⠀**Head Coverage**: {Result[ResultId][x]["Head Coverage"]}\n⠀⠀**Throat Coverage**: {Result[ResultId][x]["Throat Coverage"]}\n⠀⠀**Heart Coverage**: {Result[ResultId][x]["Heart Coverage"]}\n\n⠀⠀**Chest Coverage**: {Result[ResultId][x]["Chest Coverage"]}\n⠀⠀**Stomach Coverage**: {Result[ResultId][x]["Stomach Coverage"]}\n⠀⠀**Groin Coverage**: {Result[ResultId][x]["Groin Coverage"]}\n\n⠀⠀**Arm Coverage**: {Result[ResultId][x]["Arm Coverage"]}\n⠀⠀**Hand Coverage**: {Result[ResultId][x]["Hand Coverage"]}\n⠀⠀**Leg Coverage**: {Result[ResultId][x]["Leg Coverage"]}\n⠀⠀**Foot Coverage**: {Result[ResultId][x]["Foot Coverage"]}'
         elif not((Result[ResultId][x] is None) or (Result[ResultId][x] == "")):
           ResultingEmbed["Message"] += f'**{ApiTranslate[x]}**: {Result[ResultId][x]}\n'
       ResultingEmbed["Message"] += "\n"
