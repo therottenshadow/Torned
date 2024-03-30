@@ -20,7 +20,7 @@ Bot = commands.Bot(command_prefix=Config.Bot["Command Prefix"],intents=Intents)
 async def search(ctx,*,SearchString:str=None):
   SearchString = unidecode(SearchString)
   try:
-    Functions.Sanitize.SearchTerm(SearchString)
+    Functions.SanitizeSearchTerm(SearchString)
   except ValueError as Error:
     if str(Error) == "IllegalCharacters":
       await ctx.reply(embed=discord.Embed(title="Your search contains illegal characters",description="Your input contains characters that are not allowed because they aren't part of any item's name"))
