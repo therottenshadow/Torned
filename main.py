@@ -34,7 +34,7 @@ async def search(ctx,*,SearchString:str=None):
         Embed = Functions.SearchResultEmbedConstructor(SearchResult[:5])
         await ctx.reply(embed=discord.Embed(title="**Here is your search results**",description=Embed["Message"]).set_thumbnail(url=Embed["ImageUrl"]))
     else:
-      await ctx.send("Your search term is too short, I am not going to look through all that could turn up in that search.")
+      await ctx.send(embed=discord.Embed(title="Your search term is too short",description="I am not going to look through all that could turn up in that search."))
 
 @Bot.command()
 async def ping(ctx):
