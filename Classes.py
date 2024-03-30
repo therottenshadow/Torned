@@ -53,3 +53,9 @@ class ItemList:
     return ResultList
   def SearchById(self,Id: str):
     return {Id:self.Dic[Id]}
+
+class SanitizeError(Exception):
+  def __init__(self,value):
+    self.value = value
+  def __str__(self):
+    return repr(self.value)
