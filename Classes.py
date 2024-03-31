@@ -59,3 +59,13 @@ class SanitizeError(Exception):
     self.value = value
   def __str__(self):
     return repr(self.value)
+
+class UserObject:
+  def __init__(self,TornApiKey: str,DiscordUserId: str):
+    self.TornApiKey = TornApiKey
+    self.TornApi = TornApiWrapper(api_key=self.TornApiKey)
+    self.TornProfileData = TornApi.get_user(selections=["profile"])
+    self.TornUserId = self.TornProfileData["player_id"]
+    self.FactionId = self.TornProfileData["faction"]["faction_id"]
+    self.DiscordUUID = DiscordUserId #we need to use this to find the user's roles to populate self.DiscordRoles
+    self.DiscordRoles = [] #need to populate this at creation time.... so now.... but we will code this when /verify is available, since we will need the invoking user's discord UUID
