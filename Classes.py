@@ -3,6 +3,7 @@ from datetime import datetime
 import json
 from os.path import exists,join
 from os import getcwd,stat
+from unidecode import unidecode
 
 class GetConfig:
   def __init__(self):
@@ -47,8 +48,14 @@ class ItemList:
   def SearchByString(self,String: str):
     ResultList = []
     for Item in self.Dic:
-      if String.lower() in self.Dic[Item]["name"].lower():
+      if unidecode(String).lower() in unidecode(self.Dic[Item]["name"]).lower():
         ResultList.append({Item:self.Dic[Item]})
     return ResultList
   def SearchById(self,Id: str):
     return {Id:self.Dic[Id]}
+
+class SanitizeError(Exception):
+  def __init__(self,value):
+    self.value = value
+  def __str__(self):
+    return repr(self.value)
