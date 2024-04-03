@@ -3,13 +3,7 @@ from discord.ext import commands
 import Functions
 import Classes
 from unidecode import unidecode
-
-#put it inside a try..except to catch any possible errors
-try:
-  Config = Classes.GetConfig()
-except:
-  print("\n\n\nIt looks like there has been an error in your configuration file.\n\n\n")
-  raise
+from Config import Config
 
 ItemDb = Classes.ItemList(Config.Torn["Torn API Key"])
 Intents = discord.Intents.default()
