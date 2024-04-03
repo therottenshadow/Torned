@@ -35,12 +35,11 @@ def SearchResultEmbedConstructor(ResultList: list):
 
 
 def SanitizeTornKey(DirtyString: str):
-  KeyRE = re.compile('[^A-Za-z0-9]')
   if len(DirtyString) == 0:
     raise SanitizeError("NullString")
   if len(DirtyString) != 16:
     raise SanitizeError("IncorrectLength")
-  elif KeyRE.match(DirtyString):
+  elif bool(re.search("[^A-Za-z0-9]",DirtyString)):
     raise SanitizeError("IllegalCharacters")
   else:
     try:
@@ -52,6 +51,5 @@ def SanitizeTornKey(DirtyString: str):
       raise SanitizeError("InvalidKey")
 
 def SanitizeSearchTerm(DirtyString: str):
-  SearchTermRE = re.compile("[^A-Za-z0-9-:&/+,!?'’ ]")
-  if SearchTermRE.match(DirtyString):
+  if bool(re.search("[^A-Za-z0-9-:&/+,!?'’ ]",DirtyString)):
     raise SanitizeError("IllegalCharacters")
