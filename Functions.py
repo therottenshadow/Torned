@@ -36,7 +36,9 @@ def SearchResultEmbedConstructor(ResultList: list):
 
 def SanitizeTornKey(DirtyString: str):
   KeyRE = re.compile('[^A-Za-z0-9]')
-  if not(len(DirtyString) == 16):
+  if len(DirtyString) == 0:
+    raise SanitizeError("NullString")
+  if len(DirtyString) != 16:
     raise SanitizeError("IncorrectLength")
   elif KeyRE.match(DirtyString):
     raise SanitizeError("IllegalCharacters")
