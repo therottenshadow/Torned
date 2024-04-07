@@ -65,7 +65,7 @@ async def verify(ctx,ApiKey:str=None):
   InvokingUser.Populate()
   Db.AddAndCommit(InvokingUser)
   del InvokingUser
-  return
+  await ctx.reply(file=Images.GreenShieldCheck(),embed=discord.Embed(title="**Verification Successful**",description="You have been successfully verified on our database, now you should have been assigned appropiate roles and be able to use all of my services").set_thumbnail(url="attachment://GreenShieldCheck.webp"))
 
 @Bot.command()
 async def ping(ctx):
