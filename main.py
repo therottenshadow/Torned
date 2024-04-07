@@ -46,12 +46,12 @@ async def verify(ctx,ApiKey:str=None):
   if ApiKey is None:
     DisUser = await Bot.fetch_user(AuthorId)
     channel = await Bot.create_dm(DisUser)
-    await channel.send(file=Images.ShieldCheck(),embed=discord.Embed(title="**Verification Procedure**",description="Hi,\n\nto complete the verification procedure please invoke the verify command in this DM and add a **public access** Torn API key, this key is viewable to the server owner, it is not needed to use any higher access key.\n\nHere is an example on how to invoke the command\n\n`/verify a1b2c3d4e5f6g7h8`").set_thumbnail(url="attachment://ShieldCheck.webp"))
+    await channel.send(file=Images.ShieldCheck(),embed=discord.Embed(title="**Verification Procedure**",description="Hi,\n\nto complete the verification procedure please invoke the verify command in this DM and add a **public access** Torn API key, this key is viewable to the server owner, it is not needed to use any higher access key.\n\nHere is an example on how to invoke the command\n\n`/verify a1b2c3d4e5f6g7h8`").set_thumbnail(url="attachment://ShieldCheck.png"))
     return
   try:
     Functions.SanitizeTornKey(ApiKey)
   except Classes.SanitizeError as Error:
-    await ctx.reply(file=Images.ShieldCross(),embed=discord.Embed(title="**Verification Failed**",description="Please check that the API key you entered is a valid key, it should only contain numbers and letters and be 16 characters in length").set_thumbnail(url="attachment://ShieldCross.webp"))
+    await ctx.reply(file=Images.ShieldCross(),embed=discord.Embed(title="**Verification Failed**",description="Please check that the API key you entered is a valid key, it should only contain numbers and letters and be 16 characters in length").set_thumbnail(url="attachment://ShieldCross.png"))
     return
   Query = Db.SearchByDisId(AuthorId)
   if Query is None:
@@ -59,13 +59,13 @@ async def verify(ctx,ApiKey:str=None):
   elif Query.TornApiKey == "":
     pass
   else:
-    await ctx.reply(file=Images.ShieldCross(),embed=discord.Embed(title="**Verification Failed**",description="You are already registered on our database, you have no need to re-register").set_thumbnail(url="attachment://ShieldCross.webp"))
+    await ctx.reply(file=Images.ShieldCross(),embed=discord.Embed(title="**Verification Failed**",description="You are already registered on our database, you have no need to re-register").set_thumbnail(url="attachment://ShieldCross.png"))
     return
   InvokingUser = User(DiscordUserId=AuthorId,TornApiKey=ApiKey)
   InvokingUser.Populate()
   Db.AddAndCommit(InvokingUser)
   del InvokingUser
-  await ctx.reply(file=Images.GreenShieldCheck(),embed=discord.Embed(title="**Verification Successful**",description="You have been successfully verified on our database, now you should have been assigned appropiate roles and be able to use all of my services").set_thumbnail(url="attachment://GreenShieldCheck.webp"))
+  await ctx.reply(file=Images.GreenShieldCheck(),embed=discord.Embed(title="**Verification Successful**",description="You have been successfully verified on our database, now you should have been assigned appropiate roles and be able to use all of my services").set_thumbnail(url="attachment://GreenShieldCheck.png"))
 
 @Bot.command()
 async def ping(ctx):

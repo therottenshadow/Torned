@@ -15,10 +15,10 @@ ApiTranslate = {
 
 class ImagesObj:
   def ShieldCheck(self):
-    return File("./resources/ShieldCheck.webp", "ShieldCheck.webp")
+    return File("./resources/ShieldCheck.png", "ShieldCheck.png")
   def ShieldCross(self):
-    return File("./resources/ShieldCross.webp", "ShieldCross.webp")
+    return File("./resources/ShieldCross.png", "ShieldCross.png")
   def GreenShieldCheck(self):
-    return File("./resources/GreenShieldCheck.webp", "GreenShieldCheck.webp")
+    return File("./resources/GreenShieldCheck.png", "GreenShieldCheck.png")
 
 Images = ImagesObj()
