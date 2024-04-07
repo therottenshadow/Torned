@@ -18,5 +18,7 @@ class ImagesObj:
     return File("./resources/ShieldCheck.webp", "ShieldCheck.webp")
   def ShieldCross(self):
     return File("./resources/ShieldCross.webp", "ShieldCross.webp")
+  def GreenShieldCheck(self):
+    return File("./resources/GreenShieldCheck.webp", "GreenShieldCheck.webp")
 
 Images = ImagesObj()
