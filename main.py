@@ -46,7 +46,7 @@ async def verify(ctx,ApiKey:str=None):
   if ApiKey is None:
     DisUser = await Bot.fetch_user(AuthorId)
     channel = await Bot.create_dm(DisUser)
-    await channel.send(file=Images.ShieldCheck(),embed=discord.Embed(title="**Verification Procedure**",description="Hi,\n\nto complete the verification procedure please invoke the verify command in this DM and add a **public access** Torn API key, this key is viewable to the server owner, it is not needed to use any higher access key.\n\nHere is an example on how to invoke the command\n\n`/verify a1b2c3d4e5f6g7h8`").set_thumbnail(url="attachment://ShieldCheck.png"))
+    await channel.send(file=Images.ShieldCheck(),embed=discord.Embed(title="**Verification Procedure**",description="Hi,\n\nto complete the verification procedure please invoke the verify command in this DM and add a **public access** Torn API key, this key is viewable to the server owner, it is not needed to use any higher access key.\n\nTo create an API key, you need to go to your settings page in Torn, and under API Keys you will be able to create one, otherwise, you can use [this handy link](https://www.torn.com/preferences.php#tab=api?&step=addNewKey&title=TornedDiscordBot&type=1)\n\nHere is an example on how to invoke the command\n\n`/verify a1b2c3d4e5f6g7h8`").set_thumbnail(url="attachment://ShieldCheck.png"))
     return
   try:
     Functions.SanitizeTornKey(ApiKey)
