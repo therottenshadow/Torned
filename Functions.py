@@ -21,6 +21,23 @@ def SearchResultEmbedConstructor(ResultList: list):
       ResultingEmbed["Message"] += "\n"
   return ResultingEmbed
 
+def PriceAverageCalculator(PolledItem:dict):
+  Result = {"BazaarAverage":0,"LowestBazaar":0,"IMarketAverage":0,"LowestIMarket":0}
+  BazaarCount = 0
+  IMarketCount = 0
+  if not(PolledItem["bazaar"] is None):
+    PolledBazaar = PolledItem["bazaar"][:5]
+    for x in PolledBazaar:
+      BazaarCount += x["cost"]
+    Result["BazaarAverage"] = BazaarCount/len(PolledBazaar)
+    Result["LowestBazaar"] = PolledBazaar[0]["cost"]
+  if not(PolledItem["itemmarket"] is None):
+    PolledIMarket = PolledItem["itemmarket"][:5]
+    for x in PolledIMarket:
+      IMarketCount += x["cost"]
+    Result["IMarketAverage"] = IMarketCount/len(PolledIMarket)
+    Result["LowestIMarket"] = PolledIMarket[0]["cost"]
+  return Result
 
 def SanitizeTornKey(DirtyString: str):
   if len(DirtyString) == 0:
