@@ -7,6 +7,7 @@ from Config import Config
 from Constants import Images
 from Database import Db,User
 from TornAPIWrapper import TornApiWrapper
+import Color
 
 ItemDb = Classes.ItemList(Config.Torn["Torn API Key"])
 Intents = discord.Intents.default()
