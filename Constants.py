@@ -22,5 +22,9 @@ class ImagesObj:
     return File("./resources/GreenShieldCheck.png", "GreenShieldCheck.png")
   def RedCross(self):
     return File("./resources/RedCross.png","RedCross.png")
+  def SearchIcon(self):
+    return File("./resources/SearchIcon.png","SearchIcon.png")
+  def PriceIcon(self):
+    return File("./resources/PriceIcon.png","PriceIcon.png")
 
 Images = ImagesObj()
