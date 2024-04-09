@@ -1,4 +1,4 @@
-# A Discord Bot for the text-based MMORPG Torn City
+# A Discord Bot for the text-based MMORPG Torn City ![IMAGE](https://i.imgur.com/CqDLCRv.png)
 
 # Introduction
 This is a very simple self-hosted bot for the social platform Discord to help you fetch information out of the game and monitor several statistics.
