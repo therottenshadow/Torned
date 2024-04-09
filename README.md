@@ -7,6 +7,6 @@ This project is coded in python, the repository includes a list of needed python
 ## Donating
 If you feel like this is a project that has helped you greatly, you can let me know your gratuity and if you want to support me, I am open to it.
 ## Credits
-[Discord.Py](https://pypi.org/project/discord.py/) - For Making it easier to create the interface between backend and Discord
-[TornAPIWrapper](https://pypi.org/project/TornAPIWrapper/) - For making it easier to use the Torn API
-[UXWing](https://uxwing.com) - For those fancy icons used in the embeds (even text-based stuff needs to look fancy ;)
+ - [Discord.Py](https://pypi.org/project/discord.py/) - For Making it easier to create the interface between backend and Discord
+ - [TornAPIWrapper](https://pypi.org/project/TornAPIWrapper/) - For making it easier to use the Torn API
+ - [UXWing](https://uxwing.com) - For those fancy icons used in the embeds (even text-based stuff needs to look fancy ;)
