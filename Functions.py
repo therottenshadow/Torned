@@ -22,22 +22,27 @@ def SearchResultEmbedConstructor(ResultList: list):
   return ResultingEmbed
 
 def PriceAverageCalculator(PolledItem:dict):
-  Result = {"BazaarAverage":0,"LowestBazaar":0,"IMarketAverage":0,"LowestIMarket":0}
+  Result = {"BazaarAverage":0,"LowestBazaar":0,"BazaarAmount":0,"IMarketAverage":0,"LowestIMarket":0,"IMarketAmount":0}
   BazaarCount = 0
   IMarketCount = 0
   if not(PolledItem["bazaar"] is None):
     PolledBazaar = PolledItem["bazaar"][:5]
     for x in PolledBazaar:
       BazaarCount += x["cost"]
+      Result["BazaarAmount"] += x["quantity"]
     Result["BazaarAverage"] = BazaarCount/len(PolledBazaar)
     Result["LowestBazaar"] = PolledBazaar[0]["cost"]
   if not(PolledItem["itemmarket"] is None):
     PolledIMarket = PolledItem["itemmarket"][:5]
     for x in PolledIMarket:
       IMarketCount += x["cost"]
+      Result["IMarketAmount"] += x["quantity"]
     Result["IMarketAverage"] = IMarketCount/len(PolledIMarket)
     Result["LowestIMarket"] = PolledIMarket[0]["cost"]
   return Result
+
+def PriceEmbedConstructor(ItemName,ItemId,ResultsDict):
+  return f"Showing statistics of the first 5 orders in Bazaars and Item Market for **{ItemName}**\n**ID**: {ItemId}\n\n**Item Market**  ({ResultsDict['IMarketAmount']} Items counted)\n`•` Lowest: `${ResultsDict['LowestIMarket']}`\n`•` Average: `${ResultsDict['IMarketAverage']}`\n**Bazaar**  ({ResultsDict['BazaarAmount']} Items counted)\n`•` Lowest: `${ResultsDict['LowestBazaar']}`\n`•` Average: `${ResultsDict['BazaarAverage']}`\n\nPlease remember this is not an accurate reading due to market fluctuations, people buying out orders and lower than average orders"
 
 def SanitizeTornKey(DirtyString: str):
   if len(DirtyString) == 0:

@@ -96,7 +96,7 @@ async def price(ctx,*,SearchString:str=None):
       await ctx.reply(file=Images.RedCross(),embed=discord.Embed(title="**Price Check**",description="It seems like this item ID does not exist.").set_thumbnail(url="attachment://RedCross.png"))
       return
     Results = Functions.PriceAverageCalculator(DataQuery)
-    await ctx.reply(embed=discord.Embed(title="**Price Check Results**",description=f"**{InfoQuery[[x for x in InfoQuery][0]]['name']}**\n**ID**: {[x for x in InfoQuery][0]}\n**Lowest Item Market Price**: {Results['LowestIMarket']}\n**Average Item Market Price**: {Results['IMarketAverage']}\n**Lowest Bazaar Price**: {Results['LowestBazaar']}\n**Average Bazaar Price**: {Results['BazaarAverage']}").set_thumbnail(url=InfoQuery[[x for x in InfoQuery][0]]["image"]))
+    await ctx.reply(embed=discord.Embed(title="**Price Check Results**",description=Functions.PriceEmbedConstructor(InfoQuery[[x for x in InfoQuery][0]]['name'],[x for x in InfoQuery][0],Results)).set_thumbnail(url=InfoQuery[[x for x in InfoQuery][0]]["image"]))
     return
   else:
     if len(SearchString) > 2:
@@ -107,7 +107,7 @@ async def price(ctx,*,SearchString:str=None):
         SearchItemId = [x for x in SearchResult[0]][0]
         DataQuery = TornApi.get_market(SearchItemId,selections=["bazaar","itemmarket"])
         Results = Functions.PriceAverageCalculator(DataQuery)
-        await ctx.reply(embed=discord.Embed(title="**Price Check Results**",description=f"**{SearchResult[0][SearchItemId]['name']}**\n**ID**: {SearchItemId}\n**Lowest Item Market Price**: {Results['LowestIMarket']}\n**Average Item Market Price**: {Results['IMarketAverage']}\n**Lowest Bazaar Price**: {Results['LowestBazaar']}\n**Average Bazaar Price**: {Results['BazaarAverage']}").set_thumbnail(url=SearchResult[0][SearchItemId]["image"]))
+        await ctx.reply(embed=discord.Embed(title="**Price Check Results**",description=Functions.PriceEmbedConstructor(SearchResult[0][SearchItemId]['name'],SearchItemId,Results)).set_thumbnail(url=SearchResult[0][SearchItemId]["image"]))
     else:
       await ctx.reply(file=Images.RedCross(),embed=discord.Embed(title="**Price Check**",description="Sorry, but the term you gave me is too undescriptive and is unlikely to return the wanted item's price, please enter at least 3 characters, or even better, the item's ID number").set_thumbnail(url="attachment://RedCross.png"))
 
