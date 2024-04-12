@@ -175,8 +175,8 @@ async def price(ctx,*,SearchString:str=None):
     Results = Functions.PriceAverageCalculator(DataQuery)
     Desc = Functions.PriceEmbedConstructor(InfoQuery[[x for x in InfoQuery][0]]['name'],[x for x in InfoQuery][0],Results)
     await ctx.reply(
+      file=Images.PriceIcon(),
       embed=discord.Embed(
-        file=Images.PriceIcon(),
         description=Desc)
       .set_thumbnail(url=InfoQuery[[x for x in InfoQuery][0]]["image"])
       .set_author(name="Price Check Results",icon_url="attachment://PriceIcon.png"))
@@ -197,8 +197,8 @@ async def price(ctx,*,SearchString:str=None):
         Results = Functions.PriceAverageCalculator(DataQuery)
         Desc = Functions.PriceEmbedConstructor(SearchResult[0][SearchItemId]['name'],SearchItemId,Results)
         await ctx.reply(
+          file=Images.PriceIcon(),
           embed=discord.Embed(
-            file=Images.PriceIcon(),
             description=Desc)
           .set_thumbnail(url=SearchResult[0][SearchItemId]["image"])
           .set_author(name="Price Check Results",icon_url="attachment://PriceIcon.png"))
