@@ -64,13 +64,13 @@ def PriceEmbedConstructor(ItemName,ItemId,ResultsDict):
 **ID**: {ItemId}
 
 **Item Market**  ({ResultsDict['IMC']} Items counted)
-• Lowest: `${ResultsDict['IML']}`
-• Average: `${ResultsDict['IMA']}`
-• Highest: `${ResultsDict['IMH']}`
+• Lowest: `${ResultsDict['IML']:,.0f}`
+• Average: `${ResultsDict['IMA']:,.2f}`
+• Highest: `${ResultsDict['IMH']:,.0f}`
 **Bazaar**  ({ResultsDict['BC']} Items counted)
-• Lowest: `${ResultsDict['BL']}` `{ResultsDict['BLOI']} Items in the order`
-• Average: `${ResultsDict['BA']}`
-• Highest: `${ResultsDict['BH']}`
+• Lowest: `${ResultsDict['BL']:,.0f}` `{ResultsDict['BLOI']} Items in the order`
+• Average: `${ResultsDict['BA']:,.2f}`
+• Highest: `${ResultsDict['BH']:,.0f}`
 
 Please remember this is not an accurate reading due to market fluctuations, people buying out orders and lower than average orders"""
 
