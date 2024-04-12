@@ -37,7 +37,7 @@ def SearchResultEmbedConstructor(ResultList: list):
 
 def PriceAverageCalculator(PolledItem:dict):
   # B=Bazaar IM=Item Market A=Average L=Lowest H=Highest C=Count OI=Order Items
-  Result = {"BA":0,"BL":0,"BH":0,"BC":0,"BLOI":0,"IMA":0,"IML":0,"IMH":0,"IMC":0,"IMLOI":0}
+  Result = {"BA":0,"BL":0,"BH":0,"BC":0,"BLOI":0,"IMA":0,"IML":0,"IMH":0,"IMC":0}
   BazaarCount = 0
   IMarketCount = 0
   if not(PolledItem["bazaar"] is None):
@@ -57,7 +57,6 @@ def PriceAverageCalculator(PolledItem:dict):
     Result["IMA"] = IMarketCount/len(PolledIMarket)
     Result["IMH"] = PolledIMarket[-1]["cost"]
     Result["IML"] = PolledIMarket[0]["cost"]
-    Result["IMLOI"] = PolledIMarket[0]["quantity"]
   return Result
 
 def PriceEmbedConstructor(ItemName,ItemId,ResultsDict):
@@ -65,7 +64,7 @@ def PriceEmbedConstructor(ItemName,ItemId,ResultsDict):
 **ID**: {ItemId}
 
 **Item Market**  ({ResultsDict['IMC']} Items counted)
-• Lowest: `${ResultsDict['IML']}` `{ResultsDict['IMLOI']} Items in the order`
+• Lowest: `${ResultsDict['IML']}`
 • Average: `${ResultsDict['IMA']}`
 • Highest: `${ResultsDict['IMH']}`
 **Bazaar**  ({ResultsDict['BC']} Items counted)
