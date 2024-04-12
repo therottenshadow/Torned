@@ -72,6 +72,8 @@ def PriceEmbedConstructor(ItemName,ItemId,ResultsDict):
 • Average: `${ResultsDict['BA']:,.2f}`
 • Highest: `${ResultsDict['BH']:,.0f}`
 
+You can access the Item Market Page of this item by [clicking here.](https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname={ItemId})
+
 Please remember this is not an accurate reading due to market fluctuations, people buying out orders and lower than average orders"""
 
 def SanitizeTornKey(DirtyString: str):
