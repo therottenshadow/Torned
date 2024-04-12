@@ -4,6 +4,7 @@
   },
   "Bot":{
     "Discord Token": "",
-    "Command Prefix": ""
+    "Command Prefix": "",
+    "Database Location": "./database.db"
   }
 }

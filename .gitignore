@@ -3,3 +3,4 @@ Torned.pyz
 .venv
 Pyz-Env
 __pycache__
+database.db
