@@ -15,34 +15,65 @@ def SearchResultEmbedConstructor(ResultList: list):
         elif x == "name":
           ResultingEmbed["Message"] += f'**{Result[ResultId][x]}**\n**Item ID**: {ResultId}\n'
         elif x == "coverage":
-          ResultingEmbed["Message"] += f'**Coverage**:\n⠀⠀**Full Body Coverage**: {Result[ResultId][x]["Full Body Coverage"]}\n\n⠀⠀**Head Coverage**: {Result[ResultId][x]["Head Coverage"]}\n⠀⠀**Throat Coverage**: {Result[ResultId][x]["Throat Coverage"]}\n⠀⠀**Heart Coverage**: {Result[ResultId][x]["Heart Coverage"]}\n\n⠀⠀**Chest Coverage**: {Result[ResultId][x]["Chest Coverage"]}\n⠀⠀**Stomach Coverage**: {Result[ResultId][x]["Stomach Coverage"]}\n⠀⠀**Groin Coverage**: {Result[ResultId][x]["Groin Coverage"]}\n\n⠀⠀**Arm Coverage**: {Result[ResultId][x]["Arm Coverage"]}\n⠀⠀**Hand Coverage**: {Result[ResultId][x]["Hand Coverage"]}\n⠀⠀**Leg Coverage**: {Result[ResultId][x]["Leg Coverage"]}\n⠀⠀**Foot Coverage**: {Result[ResultId][x]["Foot Coverage"]}'
+          ResultingEmbed["Message"] += f'''**Coverage**:
+⠀⠀**Full Body Coverage**: {Result[ResultId][x]["Full Body Coverage"]}
+
+⠀⠀**Head Coverage**: {Result[ResultId][x]["Head Coverage"]}
+⠀⠀**Throat Coverage**: {Result[ResultId][x]["Throat Coverage"]}
+⠀⠀**Heart Coverage**: {Result[ResultId][x]["Heart Coverage"]}
+
+⠀⠀**Chest Coverage**: {Result[ResultId][x]["Chest Coverage"]}
+⠀⠀**Stomach Coverage**: {Result[ResultId][x]["Stomach Coverage"]}
+⠀⠀**Groin Coverage**: {Result[ResultId][x]["Groin Coverage"]}
+
+⠀⠀**Arm Coverage**: {Result[ResultId][x]["Arm Coverage"]}
+⠀⠀**Hand Coverage**: {Result[ResultId][x]["Hand Coverage"]}
+⠀⠀**Leg Coverage**: {Result[ResultId][x]["Leg Coverage"]}
+⠀⠀**Foot Coverage**: {Result[ResultId][x]["Foot Coverage"]}'''
         elif not((Result[ResultId][x] is None) or (Result[ResultId][x] == "")):
           ResultingEmbed["Message"] += f'**{ApiTranslate[x]}**: {Result[ResultId][x]}\n'
       ResultingEmbed["Message"] += "\n"
   return ResultingEmbed
 
 def PriceAverageCalculator(PolledItem:dict):
-  Result = {"BazaarAverage":0,"LowestBazaar":0,"BazaarAmount":0,"IMarketAverage":0,"LowestIMarket":0,"IMarketAmount":0}
+  # B=Bazaar IM=Item Market A=Average L=Lowest H=Highest C=Count OI=Order Items
+  Result = {"BA":0,"BL":0,"BH":0,"BC":0,"BLOI":0,"IMA":0,"IML":0,"IMH":0,"IMC":0,"IMLOI":0}
   BazaarCount = 0
   IMarketCount = 0
   if not(PolledItem["bazaar"] is None):
     PolledBazaar = PolledItem["bazaar"][:5]
     for x in PolledBazaar:
       BazaarCount += x["cost"]
-      Result["BazaarAmount"] += x["quantity"]
-    Result["BazaarAverage"] = BazaarCount/len(PolledBazaar)
-    Result["LowestBazaar"] = PolledBazaar[0]["cost"]
+      Result["BC"] += x["quantity"]
+    Result["BA"] = BazaarCount/len(PolledBazaar)
+    Result["BH"] = PolledBazaar[-1]["cost"]
+    Result["BL"] = PolledBazaar[0]["cost"]
+    Result["BLOI"] = PolledBazaar[0]["quantity"]
   if not(PolledItem["itemmarket"] is None):
     PolledIMarket = PolledItem["itemmarket"][:5]
     for x in PolledIMarket:
       IMarketCount += x["cost"]
-      Result["IMarketAmount"] += x["quantity"]
-    Result["IMarketAverage"] = IMarketCount/len(PolledIMarket)
-    Result["LowestIMarket"] = PolledIMarket[0]["cost"]
+      Result["IMC"] += x["quantity"]
+    Result["IMA"] = IMarketCount/len(PolledIMarket)
+    Result["IMH"] = PolledIMarket[-1]["cost"]
+    Result["IML"] = PolledIMarket[0]["cost"]
+    Result["IMLOI"] = PolledIMarket[0]["quantity"]
   return Result
 
 def PriceEmbedConstructor(ItemName,ItemId,ResultsDict):
-  return f"Showing statistics of the first 5 orders in Bazaars and Item Market for **{ItemName}**\n**ID**: {ItemId}\n\n**Item Market**  ({ResultsDict['IMarketAmount']} Items counted)\n`•` Lowest: `${ResultsDict['LowestIMarket']}`\n`•` Average: `${ResultsDict['IMarketAverage']}`\n**Bazaar**  ({ResultsDict['BazaarAmount']} Items counted)\n`•` Lowest: `${ResultsDict['LowestBazaar']}`\n`•` Average: `${ResultsDict['BazaarAverage']}`\n\nPlease remember this is not an accurate reading due to market fluctuations, people buying out orders and lower than average orders"
+  return f"""Showing statistics of the first 5 orders in Bazaars and Item Market for **{ItemName}**
+**ID**: {ItemId}
+
+**Item Market**  ({ResultsDict['IMC']} Items counted)
+• Lowest: `${ResultsDict['IML']}` `{ResultsDict['IMLOI']} Items in the order`
+• Average: `${ResultsDict['IMA']}`
+• Highest: `${ResultsDict['IMH']}`
+**Bazaar**  ({ResultsDict['BC']} Items counted)
+• Lowest: `${ResultsDict['BL']}` `{ResultsDict['BLOI']} Items in the order`
+• Average: `${ResultsDict['BA']}`
+• Highest: `${ResultsDict['BH']}`
+
+Please remember this is not an accurate reading due to market fluctuations, people buying out orders and lower than average orders"""
 
 def SanitizeTornKey(DirtyString: str):
   if len(DirtyString) == 0:
