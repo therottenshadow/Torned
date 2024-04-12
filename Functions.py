@@ -68,7 +68,7 @@ def PriceEmbedConstructor(ItemName,ItemId,ResultsDict):
 • Average: `${ResultsDict['IMA']:,.2f}`
 • Highest: `${ResultsDict['IMH']:,.0f}`
 **Bazaar**  ({ResultsDict['BC']} Items counted)
-• Lowest: `${ResultsDict['BL']:,.0f}` `{ResultsDict['BLOI']} Items in the order`
+• Lowest: `${ResultsDict['BL']:,.0f}` - `{ResultsDict['BLOI']} Items in the order`
 • Average: `${ResultsDict['BA']:,.2f}`
 • Highest: `${ResultsDict['BH']:,.0f}`
 
