@@ -14,17 +14,30 @@ ApiTranslate = {
 }
 
 class ImagesObj:
+  AShieldCheck = "attachment://ShieldCheck.png"
+  AShieldCross = "attachment://ShieldCross.png"
+  AGreenShieldCheck = "attachment://GreenShieldCheck.png"
+  ARedCross = "attachment://RedCross.png"
+  ASearchIcon = "attachment://SearchIcon.png"
+  APriceIcon = "attachment://PriceIcon.png"
+  APointsIcon = "attachment://PointsIcon.png"
+  ATornedIcon = "attachment://Torned.png"
   def ShieldCheck(self):
-    return File("./resources/ShieldCheck.png", "ShieldCheck.png")
+    return File("./resources/ShieldCheck.png",filename="ShieldCheck.png")
   def ShieldCross(self):
-    return File("./resources/ShieldCross.png", "ShieldCross.png")
+    return File("./resources/ShieldCross.png",filename="ShieldCross.png")
   def GreenShieldCheck(self):
-    return File("./resources/GreenShieldCheck.png", "GreenShieldCheck.png")
+    return File("./resources/GreenShieldCheck.png",filename="GreenShieldCheck.png")
   def RedCross(self):
-    return File("./resources/RedCross.png","RedCross.png")
+    return File("./resources/RedCross.png",filename="RedCross.png")
   def SearchIcon(self):
-    return File("./resources/SearchIcon.png","SearchIcon.png")
+    return File("./resources/SearchIcon.png",filename="SearchIcon.png")
   def PriceIcon(self):
-    return File("./resources/PriceIcon.png","PriceIcon.png")
+    return File("./resources/PriceIcon.png",filename="PriceIcon.png")
+  def PointsIcon(self):
+    return File("./resources/PointsIcon.png",filename="PointsIcon.png")
+  def TornedIcon(self):
+    return File("./resources/Torned.png",filename="Torned.png")
+
 
 Images = ImagesObj()
