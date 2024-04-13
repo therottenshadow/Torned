@@ -14,8 +14,10 @@ Intents = discord.Intents.default()
 Intents.message_content = True
 Bot = commands.Bot(command_prefix=Config.Bot["Command Prefix"],intents=Intents)
 
-@Bot.command()
+@Bot.command(
+  aliases=["lookup","Lookup","Search"])
 async def search(ctx,*,SearchString:str=None):
+  """Search for a Torn item and it's information"""
   if SearchString is None:
     await ctx.reply(
       files=[Images.RedCross(),Images.SearchIcon()],
@@ -85,8 +87,10 @@ async def search(ctx,*,SearchString:str=None):
         .set_thumbnail(url=Images.ARedCross)
         .set_author(name="Item Search",icon_url=Images.ASearchIcon))
 
-@Bot.command()
+@Bot.command(
+  aliases=["Verify"])
 async def verify(ctx,ApiKey:str=None):
+  """Asociate a Torn API key with your Discord Account"""
   AuthorId = ctx.message.author.id
   if ApiKey is None:
     DisUser = await Bot.fetch_user(AuthorId)
@@ -136,8 +140,10 @@ async def verify(ctx,ApiKey:str=None):
       color=Color.Green)
     .set_thumbnail(url=Images.AGreenShieldCheck))
 
-@Bot.command()
+@Bot.command(
+  aliases=["Price"])
 async def price(ctx,*,SearchString:str=None):
+  """Get Item market and Bazaar price averages for an item"""
   if SearchString is None:
     await ctx.reply(
       files=[Images.RedCross(),Images.PriceIcon()],
@@ -228,8 +234,10 @@ async def price(ctx,*,SearchString:str=None):
         .set_thumbnail(url=Images.ARedCross)
         .set_author(name="Price Check",icon_url=Images.APriceIcon))
 
-@Bot.command()
+@Bot.command(
+  aliases=["point","Points","Point"])
 async def points(ctx):
+  """Get the information of the first 5 sell orders of points on the point market"""
   AuthorId = ctx.message.author.id
   Query = Db.SearchByDisId(AuthorId)
   if Query is None:
@@ -263,8 +271,39 @@ Please remember this is not an accurate reading of the points market, the volume
     .set_thumbnail(url=Images.APointsIcon)
     .set_author(name="Points Price Check",icon_url=Images.ATornedIcon))
 
+class HALP(commands.MinimalHelpCommand):
+    async def send_pages(self):
+        destination = self.get_destination()
+        for page in self.paginator.pages:
+            await destination.send(
+              files=[Images.TornedIcon(),Images.HelpIcon()],
+              embed=discord.Embed(
+                description=page)
+              .set_thumbnail(url=Images.ATornedIcon)
+              .set_author(name="Help Command",icon_url=Images.AHelpIcon))
+Bot.help_command = HALP()
+
+@Bot.command(
+  aliases=["info","information"],
+  description="Shows a description of the bot, how to know more about commands and a link to the GitHub repository",)
+async def Info(ctx):
+  """Shows information about the code I am running!"""
+  await ctx.reply(
+    files=[Images.TornedIcon(),Images.InfoIcon()],
+    embed=discord.Embed(
+      color=Color.LightGrey,
+      description=
+"""Hello!, I am a bot running Torned, a simple bot program developed by therottenshadow[3055842] that has been coded in Python to be able to poll info from Torn from outside the game.
+
+If you want to learn more about my capabilities, you can see all possible commands by running the `/help` command.
+
+If you want to learn more about my code, you can do so on my [GitHub](https://github.com/therottenshadow/Torned)""")
+    .set_thumbnail(url=Images.ATornedIcon)
+    .set_author(name="Info Command",icon_url=Images.AInfoIcon)
+  )
+
 @Bot.command()
 async def ping(ctx):
-  await ctx.reply('pong!')
+  await ctx.reply('Pong!')
 
 Bot.run(Config.Bot["Discord Token"])
