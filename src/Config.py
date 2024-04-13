@@ -12,7 +12,7 @@ class GetConfig:
     self.ReadFromDisk()
   def DecideConfigFile(self):
     if exists(join(self.Cwd,"../config_dev.json")):
-      return "./config_dev.json"
+      return "../config_dev.json"
     elif exists(join(self.Cwd,"./config.json")):
       return "./config.json"
     else:
