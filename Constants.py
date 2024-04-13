@@ -22,6 +22,8 @@ class ImagesObj:
   APriceIcon = "attachment://PriceIcon.png"
   APointsIcon = "attachment://PointsIcon.png"
   ATornedIcon = "attachment://Torned.png"
+  AHelpIcon = "attachment://HelpIcon.png"
+  AInfoIcon = "attachment://InfoIcon.png"
   def ShieldCheck(self):
     return File("./resources/ShieldCheck.png",filename="ShieldCheck.png")
   def ShieldCross(self):
@@ -38,6 +40,10 @@ class ImagesObj:
     return File("./resources/PointsIcon.png",filename="PointsIcon.png")
   def TornedIcon(self):
     return File("./resources/Torned.png",filename="Torned.png")
+  def HelpIcon(self):
+    return File("./resources/HelpIcon.png","HelpIcon.png")
+  def InfoIcon(self):
+    return File("./resources/InfoIcon.png","InfoIcon.png")
 
 
 Images = ImagesObj()
