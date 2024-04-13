@@ -1,12 +1,13 @@
 import discord
 from discord.ext import commands
+from unidecode import unidecode
+from TornAPIWrapper import TornApiWrapper
+import inspect
 import Functions
 import Classes
-from unidecode import unidecode
 from Config import Config
 from Constants import Images
 from Database import Db,User
-from TornAPIWrapper import TornApiWrapper
 import Color
 
 ItemDb = Classes.ItemList(Config.Torn["Torn API Key"])
@@ -15,17 +16,25 @@ Intents.message_content = True
 Bot = commands.Bot(command_prefix=Config.Bot["Command Prefix"],intents=Intents)
 
 @Bot.command(
-  aliases=["lookup","Lookup","Search"])
+  aliases=["lookup","Lookup","Search"],
+  description="This command serves to search the list of existing Torn items whether you are unsure about the item's name or you want to double check some information about the item.")
 async def search(ctx,*,SearchString:str=None):
   """Search for a Torn item and it's information"""
   if SearchString is None:
     await ctx.reply(
-      files=[Images.RedCross(),Images.SearchIcon()],
+      files=[Images.TornedIcon(),Images.SearchIcon()],
       embed=discord.Embed(
-        description="It seems like you haven't given me any search parameters, wanna try that again?",
+        description=inspect.cleandoc("""
+          Hello!,
+
+          This command serves to search the list of existing Torn items whether you are unsure about the item's name or you want to double check some information about the item.
+
+          Here is an example for searching for the Baseball Bat
+          `/search Baseball Bat`
+          """),
         color=Color.Red)
-      .set_thumbnail(url=Images.ARedCross)
-      .set_author(name="Item Search",icon_url=Images.ASearchIcon))
+      .set_thumbnail(url=Images.ASearchIcon)
+      .set_author(name="Item Search",icon_url=Images.ATornedIcon))
     return
   SearchString = unidecode(SearchString)
   try:
@@ -35,7 +44,11 @@ async def search(ctx,*,SearchString:str=None):
       await ctx.reply(
         files=[Images.RedCross(),Images.SearchIcon()],
         embed=discord.Embed(
-          description="Your search contains illegal characters.\nYour input contains characters that are not allowed because they aren't part of any item's name",
+          description=inspect.cleandoc("""
+            Your search contains illegal characters.
+
+            Your input contains characters that are not allowed because they aren't part of any item's name.
+            """),
         color=Color.Red)
         .set_thumbnail(url=Images.ARedCross)
         .set_author(name="Item Search",icon_url=Images.ASearchIcon))
@@ -65,7 +78,11 @@ async def search(ctx,*,SearchString:str=None):
         await ctx.reply(
           files=[Images.RedCross(),Images.SearchIcon()],
           embed=discord.Embed(
-            description="Seems like your search didn't bring up anything.\nAre you sure what you searched exists?? If it is something new it can take up to 6 hours for me to acknowledge it's existence.",
+            description=inspect.cleandoc("""
+              Seems like your search didn't bring up anything.
+
+              Are you sure what you searched exists?? If it is something new it can take up to 6 hours for me to acknowledge it's existence.
+              """),
             color=Color.Red)
           .set_thumbnail(url=Images.ARedCross)
           .set_author(name="Item Search",icon_url=Images.ASearchIcon))
@@ -82,7 +99,11 @@ async def search(ctx,*,SearchString:str=None):
       await ctx.reply(
         files=[Images.RedCross(),Images.SearchIcon()],
         embed=discord.Embed(
-          description="Your search term is too short.\nI am not going to look through all that could turn up in that search.",
+          description=inspect.cleandoc("""
+            Your search term is too short.
+
+            I am not going to look through all that could turn up in that search.
+            """),
           color=Color.Red)
         .set_thumbnail(url=Images.ARedCross)
         .set_author(name="Item Search",icon_url=Images.ASearchIcon))
@@ -99,7 +120,15 @@ async def verify(ctx,ApiKey:str=None):
       file=Images.ShieldCheck(),
       embed=discord.Embed(
         title="**Verification Procedure**",
-        description="Hi,\n\nto complete the verification procedure please invoke the verify command in this DM and add a **public access** Torn API key, this key is viewable to the server owner, it is not needed to use any higher access key.\n\nTo create an API key, you need to go to your settings page in Torn, and under API Keys you will be able to create one, otherwise, you can use [this handy link](https://www.torn.com/preferences.php#tab=api?&step=addNewKey&title=TornedDiscordBot&type=1)\n\nHere is an example on how to invoke the command\n\n`/verify a1b2c3d4e5f6g7h8`",
+        description=inspect.cleandoc("""
+          Hi,to complete the verification procedure please invoke the verify command in this DM and add a **public access** Torn API key, this key is viewable to the server owner, it is not needed to use any higher access key.
+
+          To create an API key, you need to go to your settings page in Torn, and under API Keys you will be able to create one, otherwise, you can use [this handy link](https://www.torn.com/preferences.php#tab=api?&step=addNewKey&title=TornedDiscordBot&type=1)
+          
+          Here is an example on how to invoke the command
+
+          `/verify a1b2c3d4e5f6g7h8`
+          """),
         color=Color.Violet)
       .set_thumbnail(url=Images.AShieldCheck))
     return
@@ -107,12 +136,12 @@ async def verify(ctx,ApiKey:str=None):
     Functions.SanitizeTornKey(ApiKey)
   except Classes.SanitizeError:
     await ctx.reply(
-      file=Images.ShieldCross(),
+      files=[Images.ShieldCross(),Images.TornedIcon()],
       embed=discord.Embed(
-        title="**Verification Failed**",
         description="Please check that the API key you entered is a valid key, it should only contain numbers and letters and be 16 characters in length",
         color=Color.Red)
-      .set_thumbnail(url=Images.AShieldCross))
+      .set_thumbnail(url=Images.AShieldCross)
+      .set_author(name="Verification Failed",icon_url=Images.ATornedIcon))
     return
   Query = Db.SearchByDisId(AuthorId)
   if Query is None:
@@ -121,24 +150,24 @@ async def verify(ctx,ApiKey:str=None):
     pass
   else:
     await ctx.reply(
-      file=Images.ShieldCross(),
+      files=[Images.ShieldCross(),Images.TornedIcon()],
       embed=discord.Embed(
-        title="**Verification Failed**",
         description="You are already registered on our database, you have no need to re-register",
         color=Color.Red)
-      .set_thumbnail(url=Images.AShieldCross))
+      .set_thumbnail(url=Images.AShieldCross)
+      .set_author(name="Verification Failed",icon_url=Images.ATornedIcon))
     return
   InvokingUser = User(DiscordUserId=AuthorId,TornApiKey=ApiKey)
   InvokingUser.Populate()
   Db.AddAndCommit(InvokingUser)
   del InvokingUser
   await ctx.reply(
-    file=Images.GreenShieldCheck(),
+    files=[Images.GreenShieldCheck(),Images.TornedIcon()],
     embed=discord.Embed(
-      title="**Verification Successful**",
       description="You have been successfully verified on our database, now you should have been assigned appropiate roles and be able to use all of my services",
       color=Color.Green)
-    .set_thumbnail(url=Images.AGreenShieldCheck))
+    .set_thumbnail(url=Images.AGreenShieldCheck)
+    .set_author(name="Verification Successful",icon_url=Images.ATornedIcon))
 
 @Bot.command(
   aliases=["Price"])
@@ -146,12 +175,17 @@ async def price(ctx,*,SearchString:str=None):
   """Get Item market and Bazaar price averages for an item"""
   if SearchString is None:
     await ctx.reply(
-      files=[Images.RedCross(),Images.PriceIcon()],
+      files=[Images.TornedIcon(),Images.PriceIcon()],
       embed=discord.Embed(
-        description="Please introduce the name or ID number of an item to get it's average item market and bazaar prices.\n\nBelow is an example\n`/price Hammer`",
+        description=inspect.cleandoc("""
+          Please introduce the name or ID number of an item to get it's average item market and bazaar prices.
+
+          Below is an example for polling the prices of Hammer.
+          `/price Hammer`
+          """),
         color=Color.Red)
-      .set_thumbnail(url=Images.ARedCross)
-      .set_author(name="Price Check",icon_url=Images.APriceIcon))
+      .set_thumbnail(url=Images.APriceIcon)
+      .set_author(name="Price Check",icon_url=Images.ATornedIcon))
     return
   SearchString = unidecode(SearchString).lower()
   try:
@@ -161,7 +195,11 @@ async def price(ctx,*,SearchString:str=None):
       await ctx.reply(
         files=[Images.RedCross(),Images.PriceIcon()],
         embed=discord.Embed(
-          description="Your search contains illegal characters.\n\nYour input contains characters that are not allowed because they aren't part of any item's name",
+          description=inspect.cleandoc("""
+            Your search contains illegal characters.
+
+            Your input contains characters that are not allowed because they aren't part of any item's name
+            """),
           color=Color.Red)
         .set_thumbnail(url=Images.ARedCross)
         .set_author(name="Price Check",icon_url=Images.APriceIcon))
@@ -259,10 +297,11 @@ async def points(ctx):
   Message = "Here is the data of the first 5 sell orders for points:\n\n"
   for x in Data:
     Message += f'• Price/Point: `${x["cost"]:,.0f}` Quantity: `{x["quantity"]}` Total Price: `${x["total_cost"]:,.0f}`\n'
-  Message += """
-[Here is a link to go directly to the Points Market](https://www.torn.com/pmarket.php)
+  Message += inspect.cleandoc("""
+    [Here is a link to go directly to the Points Market](https://www.torn.com/pmarket.php)
 
-Please remember this is not an accurate reading of the points market, the volume of sells is so high you might not get to buy these specific orders, this is a mere estimation"""
+    Please remember this is not an accurate reading of the points market, the volume of sells is so high you might not get to buy these specific orders, this is a mere estimation
+    """)
   await ctx.reply(
     files=[Images.PointsIcon(),Images.TornedIcon()],
     embed=discord.Embed(
@@ -292,12 +331,13 @@ async def Info(ctx):
     files=[Images.TornedIcon(),Images.InfoIcon()],
     embed=discord.Embed(
       color=Color.LightGrey,
-      description=
-"""Hello!, I am a bot running Torned, a simple bot program developed by therottenshadow[3055842] that has been coded in Python to be able to poll info from Torn from outside the game.
+      description=inspect.cleandoc("""
+        Hello!, I am a bot running Torned, a simple bot program developed by therottenshadow[3055842] that has been coded in Python to be able to poll info from Torn from outside the game.
 
-If you want to learn more about my capabilities, you can see all possible commands by running the `/help` command.
+        If you want to learn more about my capabilities, you can see all possible commands by running the `/help` command.
 
-If you want to learn more about my code, you can do so on my [GitHub](https://github.com/therottenshadow/Torned)""")
+        If you want to learn more about my code, you can do so on my [GitHub](https://github.com/therottenshadow/Torned)
+        """))
     .set_thumbnail(url=Images.ATornedIcon)
     .set_author(name="Info Command",icon_url=Images.AInfoIcon)
   )

@@ -1,5 +1,6 @@
 import re
 from TornAPIWrapper import TornApiWrapper
+import inspect
 from Classes import SanitizeError
 from Constants import ApiTranslate
 
@@ -15,21 +16,23 @@ def SearchResultEmbedConstructor(ResultList: list):
         elif x == "name":
           ResultingEmbed["Message"] += f'**{Result[ResultId][x]}**\n**Item ID**: {ResultId}\n'
         elif x == "coverage":
-          ResultingEmbed["Message"] += f'''**Coverage**:
-⠀⠀**Full Body Coverage**: {Result[ResultId][x]["Full Body Coverage"]}
+          ResultingEmbed["Message"] += inspect.cleandoc(f'''
+            **Coverage**:
+            ⠀⠀**Full Body Coverage**: {Result[ResultId][x]["Full Body Coverage"]}
 
-⠀⠀**Head Coverage**: {Result[ResultId][x]["Head Coverage"]}
-⠀⠀**Throat Coverage**: {Result[ResultId][x]["Throat Coverage"]}
-⠀⠀**Heart Coverage**: {Result[ResultId][x]["Heart Coverage"]}
+            ⠀⠀**Head Coverage**: {Result[ResultId][x]["Head Coverage"]}
+            ⠀⠀**Throat Coverage**: {Result[ResultId][x]["Throat Coverage"]}
+            ⠀⠀**Heart Coverage**: {Result[ResultId][x]["Heart Coverage"]}
 
-⠀⠀**Chest Coverage**: {Result[ResultId][x]["Chest Coverage"]}
-⠀⠀**Stomach Coverage**: {Result[ResultId][x]["Stomach Coverage"]}
-⠀⠀**Groin Coverage**: {Result[ResultId][x]["Groin Coverage"]}
+            ⠀⠀**Chest Coverage**: {Result[ResultId][x]["Chest Coverage"]}
+            ⠀⠀**Stomach Coverage**: {Result[ResultId][x]["Stomach Coverage"]}
+            ⠀⠀**Groin Coverage**: {Result[ResultId][x]["Groin Coverage"]}
 
-⠀⠀**Arm Coverage**: {Result[ResultId][x]["Arm Coverage"]}
-⠀⠀**Hand Coverage**: {Result[ResultId][x]["Hand Coverage"]}
-⠀⠀**Leg Coverage**: {Result[ResultId][x]["Leg Coverage"]}
-⠀⠀**Foot Coverage**: {Result[ResultId][x]["Foot Coverage"]}'''
+            ⠀⠀**Arm Coverage**: {Result[ResultId][x]["Arm Coverage"]}
+            ⠀⠀**Hand Coverage**: {Result[ResultId][x]["Hand Coverage"]}
+            ⠀⠀**Leg Coverage**: {Result[ResultId][x]["Leg Coverage"]}
+            ⠀⠀**Foot Coverage**: {Result[ResultId][x]["Foot Coverage"]}
+            ''')
         elif not((Result[ResultId][x] is None) or (Result[ResultId][x] == "")):
           ResultingEmbed["Message"] += f'**{ApiTranslate[x]}**: {Result[ResultId][x]}\n'
       ResultingEmbed["Message"] += "\n"
@@ -60,21 +63,23 @@ def PriceAverageCalculator(PolledItem:dict):
   return Result
 
 def PriceEmbedConstructor(ItemName,ItemId,ResultsDict):
-  return f"""Showing statistics of the first 5 orders in Bazaars and Item Market for **{ItemName}**
-**ID**: {ItemId}
+  return inspect.cleandoc(f"""
+    Showing statistics of the first 5 orders in Bazaars and Item Market for **{ItemName}**
+    **ID**: {ItemId}
 
-**Item Market**  ({ResultsDict['IMC']} Items counted)
-• Lowest: `${ResultsDict['IML']:,.0f}`
-• Average: `${ResultsDict['IMA']:,.2f}`
-• Highest: `${ResultsDict['IMH']:,.0f}`
-**Bazaar**  ({ResultsDict['BC']} Items counted)
-• Lowest: `${ResultsDict['BL']:,.0f}` - `{ResultsDict['BLOI']} Items in the order`
-• Average: `${ResultsDict['BA']:,.2f}`
-• Highest: `${ResultsDict['BH']:,.0f}`
+    **Item Market**  ({ResultsDict['IMC']} Items counted)
+    • Lowest: `${ResultsDict['IML']:,.0f}`
+    • Average: `${ResultsDict['IMA']:,.2f}`
+    • Highest: `${ResultsDict['IMH']:,.0f}`
+    **Bazaar**  ({ResultsDict['BC']} Items counted)
+    • Lowest: `${ResultsDict['BL']:,.0f}` - `{ResultsDict['BLOI']} Items in the order`
+    • Average: `${ResultsDict['BA']:,.2f}`
+    • Highest: `${ResultsDict['BH']:,.0f}`
 
-You can access the Item Market Page of this item by [clicking here.](https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname={ItemId})
+    You can access the Item Market Page of this item by [clicking here.](https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname={ItemId})
 
-Please remember this is not an accurate reading due to market fluctuations, people buying out orders and lower than average orders"""
+    Please remember this is not an accurate reading due to market fluctuations, people buying out orders and lower than average orders
+    """)
 
 def SanitizeTornKey(DirtyString: str):
   if len(DirtyString) == 0:
