@@ -32,7 +32,7 @@ async def search(ctx,*,SearchString:str=None):
           Here is an example for searching for the Baseball Bat
           `/search Baseball Bat`
           """),
-        color=Color.Red)
+        color=Color.Cyan)
       .set_thumbnail(url=Images.ASearchIcon)
       .set_author(name="Item Search",icon_url=Images.ATornedIcon))
     return
@@ -183,7 +183,7 @@ async def price(ctx,*,SearchString:str=None):
           Below is an example for polling the prices of Hammer.
           `/price Hammer`
           """),
-        color=Color.Red)
+        color=Color.Yellow)
       .set_thumbnail(url=Images.APriceIcon)
       .set_author(name="Price Check",icon_url=Images.ATornedIcon))
     return
@@ -311,15 +311,15 @@ async def points(ctx):
     .set_author(name="Points Price Check",icon_url=Images.ATornedIcon))
 
 class HALP(commands.MinimalHelpCommand):
-    async def send_pages(self):
-        destination = self.get_destination()
-        for page in self.paginator.pages:
-            await destination.send(
-              files=[Images.TornedIcon(),Images.HelpIcon()],
-              embed=discord.Embed(
-                description=page)
-              .set_thumbnail(url=Images.ATornedIcon)
-              .set_author(name="Help Command",icon_url=Images.AHelpIcon))
+  async def send_pages(self):
+    destination = self.get_destination()
+    for page in self.paginator.pages:
+      await destination.send(
+        files=[Images.TornedIcon(),Images.HelpIcon()],
+        embed=discord.Embed(
+          description=page)
+          .set_thumbnail(url=Images.ATornedIcon)
+          .set_author(name="Help Command",icon_url=Images.AHelpIcon))
 Bot.help_command = HALP()
 
 @Bot.command(
