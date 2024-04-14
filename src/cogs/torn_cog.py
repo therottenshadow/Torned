@@ -113,7 +113,8 @@ class TornCog(commands.Cog, name='Torn'):
           .set_author(name="Item Search",icon_url=Images.ASearchIcon))
 
   @commands.command(
-    aliases=["Price"])
+    aliases=["Price"],
+    description="This command allows you to get the price of the lowest sell order, average of 5 sell orders and highest sell order for an item on the item market or bazaar. This command needs you to have completed the verification process by using /verify.")
   async def price(self, ctx, *, SearchString: str = None) -> None:
     """Get Item market and Bazaar price averages for an item"""
     if SearchString is None:
@@ -213,7 +214,8 @@ class TornCog(commands.Cog, name='Torn'):
           .set_author(name="Price Check",icon_url=Images.APriceIcon))
 
   @commands.command(
-    aliases=["point","Points","Point"])
+    aliases=["point","Points","Point"],
+    description="This commands allows you to query the first 5 sell orders for points on the points market and get their price per point, quantity and total price.")
   async def points(self, ctx) -> None:
     """Get the information of the first 5 sell orders of points on the point market"""
     AuthorId = ctx.message.author.id

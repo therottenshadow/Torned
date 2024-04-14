@@ -12,7 +12,8 @@ class UsersCog(commands.Cog, name='Users'):
     self.bot = bot
 
   @commands.command(
-    aliases=["Verify"])
+    aliases=["Verify"],
+    description="This command will associate a Torn API key with your Discord user ID number, effectively bounding the API key to your Discord account on our server, which will allow you to use most of our services involving data from Torn's servers and get Discord roles applied to you depending on your faction and position within the faction.")
   async def verify(self, ctx, ApiKey: str = None) -> None:
     """Asociate a Torn API key with your Discord Account"""
     AuthorId = ctx.message.author.id

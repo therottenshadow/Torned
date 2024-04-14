@@ -6,7 +6,9 @@ class BotCog(commands.Cog, name='Bot'):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.command()
+  @commands.command(
+    aliases=["Ping"],
+    description="Ping!........Pong!.......This is just a fun command")
   async def ping(self, ctx) -> NoReturn:
     await ctx.reply("Pong!")
 
