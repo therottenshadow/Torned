@@ -1,8 +1,10 @@
+import inspect
+from typing import NoReturn
+
 import discord
 from discord.ext import commands
-from unidecode import unidecode
 from TornAPIWrapper import TornApiWrapper
-import inspect
+
 import Functions
 import Classes
 from Config import Config
@@ -18,7 +20,7 @@ Bot = commands.Bot(command_prefix=Config.Bot["Command Prefix"],intents=Intents)
 @Bot.command(
   aliases=["lookup","Lookup","Search"],
   description="This command serves to search the list of existing Torn items whether you are unsure about the item's name or you want to double check some information about the item.")
-async def search(ctx,*,SearchString:str=None):
+async def search(ctx, *, SearchString: str = None) -> None:
   """Search for a Torn item and it's information"""
   if SearchString is None:
     await ctx.reply(
@@ -36,11 +38,10 @@ async def search(ctx,*,SearchString:str=None):
       .set_thumbnail(url=Images.ASearchIcon)
       .set_author(name="Item Search",icon_url=Images.ATornedIcon))
     return
-  SearchString = unidecode(SearchString)
   try:
-    Functions.SanitizeSearchTerm(SearchString)
+    SearchString = Functions.SanitizeSearchTerm(SearchString)
   except Classes.SanitizeError as Error:
-    if 'IllegalCharacters' in str(Error):
+    if "IllegalCharacters" in str(Error):
       await ctx.reply(
         files=[Images.RedCross(),Images.SearchIcon()],
         embed=discord.Embed(
@@ -54,15 +55,9 @@ async def search(ctx,*,SearchString:str=None):
         .set_author(name="Item Search",icon_url=Images.ASearchIcon))
       return
   if SearchString.isdigit():
+    SearchList = []
     try:
-      Embed = Functions.SearchResultEmbedConstructor([ItemDb.SearchById(SearchString)])
-      await ctx.reply(
-        file=Images.SearchIcon(),
-        embed=discord.Embed(
-          description=Embed["Message"],
-            color=Color.Cyan)
-        .set_thumbnail(url=Embed["ImageUrl"])
-        .set_author(name="Item Search Results",icon_url=Images.ASearchIcon))
+      SearchList.append(ItemDb.SearchById(SearchString))
     except KeyError:
       await ctx.reply(
         files=[Images.RedCross(),Images.SearchIcon()],
@@ -71,6 +66,15 @@ async def search(ctx,*,SearchString:str=None):
           color=Color.Red)
         .set_thumbnail(url=Images.ARedCross)
         .set_author(name="Item Search",icon_url=Images.ASearchIcon))
+    else:
+      Embed = Functions.SearchResultEmbedConstructor(SearchList)
+      await ctx.reply(
+        file=Images.SearchIcon(),
+        embed=discord.Embed(
+          description=Embed["Message"],
+            color=Color.Cyan)
+        .set_thumbnail(url=Embed["ImageUrl"])
+        .set_author(name="Item Search Results",icon_url=Images.ASearchIcon))
   else:
     if len(SearchString) > 2:
       SearchResult = ItemDb.SearchByString(SearchString)
@@ -110,7 +114,7 @@ async def search(ctx,*,SearchString:str=None):
 
 @Bot.command(
   aliases=["Verify"])
-async def verify(ctx,ApiKey:str=None):
+async def verify(ctx, ApiKey: str = None) -> None:
   """Asociate a Torn API key with your Discord Account"""
   AuthorId = ctx.message.author.id
   if ApiKey is None:
@@ -171,7 +175,7 @@ async def verify(ctx,ApiKey:str=None):
 
 @Bot.command(
   aliases=["Price"])
-async def price(ctx,*,SearchString:str=None):
+async def price(ctx, *, SearchString: str = None) -> None:
   """Get Item market and Bazaar price averages for an item"""
   if SearchString is None:
     await ctx.reply(
@@ -187,11 +191,10 @@ async def price(ctx,*,SearchString:str=None):
       .set_thumbnail(url=Images.APriceIcon)
       .set_author(name="Price Check",icon_url=Images.ATornedIcon))
     return
-  SearchString = unidecode(SearchString).lower()
   try:
-    Functions.SanitizeSearchTerm(SearchString)
+    SearchString = Functions.SanitizeSearchTerm(SearchString)
   except Classes.SanitizeError as Error:
-    if 'IllegalCharacters' in str(Error):
+    if "IllegalCharacters" in str(Error):
       await ctx.reply(
         files=[Images.RedCross(),Images.PriceIcon()],
         embed=discord.Embed(
@@ -215,8 +218,7 @@ async def price(ctx,*,SearchString:str=None):
       .set_thumbnail(url=Images.ARedCross)
       .set_author(name="Price Check",icon_url=Images.APriceIcon))
     return
-  else:
-    TornApi = TornApiWrapper(api_key=Query.TornApiKey)
+  TornApi = TornApiWrapper(api_key=Query.TornApiKey)
   if SearchString.isdigit():
     DataQuery = TornApi.get_market(SearchString,selections=["bazaar","itemmarket"])
     try:
@@ -231,7 +233,7 @@ async def price(ctx,*,SearchString:str=None):
         .set_author(name="Price Check",icon_url=Images.APriceIcon))
       return
     Results = Functions.PriceAverageCalculator(DataQuery)
-    Desc = Functions.PriceEmbedConstructor(InfoQuery[[x for x in InfoQuery][0]]['name'],[x for x in InfoQuery][0],Results)
+    Desc = Functions.PriceEmbedConstructor(InfoQuery[[x for x in InfoQuery][0]]["name"],[x for x in InfoQuery][0],Results)
     await ctx.reply(
       file=Images.PriceIcon(),
       embed=discord.Embed(
@@ -239,7 +241,6 @@ async def price(ctx,*,SearchString:str=None):
         color=Color.Yellow)
       .set_thumbnail(url=InfoQuery[[x for x in InfoQuery][0]]["image"])
       .set_author(name="Price Check Results",icon_url=Images.APriceIcon))
-    return
   else:
     if len(SearchString) > 2:
       SearchResult = ItemDb.SearchByString(SearchString)[:1]
@@ -255,7 +256,7 @@ async def price(ctx,*,SearchString:str=None):
         SearchItemId = [x for x in SearchResult[0]][0]
         DataQuery = TornApi.get_market(SearchItemId,selections=["bazaar","itemmarket"])
         Results = Functions.PriceAverageCalculator(DataQuery)
-        Desc = Functions.PriceEmbedConstructor(SearchResult[0][SearchItemId]['name'],SearchItemId,Results)
+        Desc = Functions.PriceEmbedConstructor(SearchResult[0][SearchItemId]["name"],SearchItemId,Results)
         await ctx.reply(
           file=Images.PriceIcon(),
           embed=discord.Embed(
@@ -274,7 +275,7 @@ async def price(ctx,*,SearchString:str=None):
 
 @Bot.command(
   aliases=["point","Points","Point"])
-async def points(ctx):
+async def points(ctx) -> None:
   """Get the information of the first 5 sell orders of points on the point market"""
   AuthorId = ctx.message.author.id
   Query = Db.SearchByDisId(AuthorId)
@@ -311,7 +312,7 @@ async def points(ctx):
     .set_author(name="Points Price Check",icon_url=Images.ATornedIcon))
 
 class HALP(commands.MinimalHelpCommand):
-  async def send_pages(self):
+  async def send_pages(self) -> NoReturn:
     destination = self.get_destination()
     for page in self.paginator.pages:
       await destination.send(
@@ -325,7 +326,7 @@ Bot.help_command = HALP()
 @Bot.command(
   aliases=["info","information"],
   description="Shows a description of the bot, how to know more about commands and a link to the GitHub repository",)
-async def Info(ctx):
+async def Info(ctx) -> NoReturn:
   """Shows information about the code I am running!"""
   await ctx.reply(
     files=[Images.TornedIcon(),Images.InfoIcon()],
@@ -343,7 +344,7 @@ async def Info(ctx):
   )
 
 @Bot.command()
-async def ping(ctx):
-  await ctx.reply('Pong!')
+async def ping(ctx) -> NoReturn:
+  await ctx.reply("Pong!")
 
 Bot.run(Config.Bot["Discord Token"])

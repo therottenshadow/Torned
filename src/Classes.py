@@ -1,30 +1,33 @@
-from TornAPIWrapper import TornApiWrapper
 from datetime import datetime
+from typing import NoReturn
+
+from TornAPIWrapper import TornApiWrapper
 from unidecode import unidecode
+
 from Config import Config
 
 class ItemList:
-  def __init__(self,TornApiKey: str):
+  def __init__(self, TornApiKey: str):
     self.TornApi = TornApiWrapper(api_key=TornApiKey)
     self.Dic = {}
     self.UpdateTime = None
     self.UpdateItemList()
-  def UpdateItemList(self):
+  def UpdateItemList(self) -> NoReturn:
     self.ApiData = self.TornApi.get_torn(selections=["items"])["items"]
     for Id in self.ApiData:
       self.Dic[Id] = self.ApiData[Id]
     self.UpdateTime = datetime.now()
-  def SearchByString(self,String: str):
+  def SearchByString(self, String: str) -> list:
     ResultList = []
     for Item in self.Dic:
       if unidecode(String).lower() in unidecode(self.Dic[Item]["name"]).lower():
         ResultList.append({Item:self.Dic[Item]})
     return ResultList
-  def SearchById(self,Id: str):
+  def SearchById(self,Id: str) -> dict:
     return {Id:self.Dic[Id]}
 
 class SanitizeError(Exception):
-  def __init__(self,value):
+  def __init__(self, value):
     self.value = value
   def __str__(self):
     return repr(self.value)

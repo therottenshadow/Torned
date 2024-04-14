@@ -1,21 +1,23 @@
+from os.path import join
+
 from sqlalchemy import create_engine,Column,Integer,Numeric,String
 from sqlalchemy.orm import sessionmaker,declarative_base
 from TornAPIWrapper import TornApiWrapper
-from os.path import join
+
 from Config import Config
 
 class DB():
-  def __init__(self,DBFile: str=None):
+  def __init__(self, DBFile: str = None):
     self.engine = create_engine(DBFile)
     self.SessionFunc = sessionmaker(bind=self.engine)
     self.session = self.SessionFunc()
     self.Base = declarative_base()
-  def AddAndCommit(self,Object):
+  def AddAndCommit(self, Object):
     self.session.add(Object)
     self.session.commit()
   def Commit(self):
     self.session.commit()
-  def SearchByDisId(self,DiscordId: int=0):
+  def SearchByDisId(self, DiscordId: int = 0):
     return self.session.query(User).filter(User.DiscordUserId == DiscordId).first()
 
 Db = DB(join("sqlite:///",Config.Bot["Database Location"]))

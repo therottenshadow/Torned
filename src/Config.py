@@ -34,5 +34,5 @@ class GetConfig:
 try:
   Config = GetConfig()
 except:
-  print("\n\n\nIt looks like there has been an error in your configuration file.\n\n\n")
+  print("\n\n\nIt looks like there has been an error in your configuration file or it doesn't exist.\n\n\n")
   raise
