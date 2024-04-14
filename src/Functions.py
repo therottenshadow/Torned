@@ -20,8 +20,8 @@ def SearchResultEmbedConstructor(ResultList: list) -> dict:
         elif x == "name":
           ResultingEmbed["Message"] += f"**{Result[ResultId][x]}**\n**Item ID**: {ResultId}\n"
         elif x == "coverage":
-          ResultingEmbed["Message"] += inspect.cleandoc(f"""
-            **Coverage**:
+          ResultingEmbed["Message"] += inspect.cleandoc(
+            f"""**Coverage**:
             ⠀⠀**Full Body Coverage**: {Result[ResultId][x]["Full Body Coverage"]}
 
             ⠀⠀**Head Coverage**: {Result[ResultId][x]["Head Coverage"]}
@@ -67,8 +67,8 @@ def PriceAverageCalculator(PolledItem: dict) -> dict:
   return Result
 
 def PriceEmbedConstructor(ItemName: str, ItemId: str, ResultsDict: dict) -> str:
-  return inspect.cleandoc(f"""
-    Showing statistics of the first 5 orders in Bazaars and Item Market for **{ItemName}**
+  return inspect.cleandoc(
+    f"""Showing statistics of the first 5 orders in Bazaars and Item Market for **{ItemName}**
     **ID**: {ItemId}
 
     **Item Market**  ({ResultsDict["IMC"]} Items counted)
