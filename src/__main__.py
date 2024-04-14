@@ -4,7 +4,6 @@ import discord
 from discord.ext import commands
 
 from Config import Config
-import cogs
 
 
 Intents = discord.Intents.default()
