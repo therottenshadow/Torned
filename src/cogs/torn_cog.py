@@ -215,7 +215,7 @@ class TornCog(commands.Cog, name='Torn'):
 
   @commands.command(
     aliases=["point","Points","Point"],
-    description="This commands allows you to query the first 5 sell orders for points on the points market and get their price per point, quantity and total price.")
+    description="This commands allows you to query the first 5 sell orders for points on the points market and get their price per point, quantity and total price. This command needs you to have completed the verification process by using /verify.")
   async def points(self, ctx) -> None:
     """Get the information of the first 5 sell orders of points on the point market"""
     AuthorId = ctx.message.author.id
