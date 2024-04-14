@@ -1,7 +1,5 @@
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='!')
-
 class My_Cog(commands.Cog, name='Your Cog Name'):
     def __init__(self, bot):
         self.bot = bot
