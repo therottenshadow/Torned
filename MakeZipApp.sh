@@ -1,5 +1,6 @@
 #!/bin/bash
 mkdir --parents Pyz-Env/cogs
+cp LICENSE README.md Pyz-Env/
 cp -r ./src/*.py ./src/resources Pyz-Env/
 cp ./src/cogs/*.py Pyz-Env/cogs
 pip install --isolated -r requirements.txt --target ./Pyz-Env

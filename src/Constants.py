@@ -1,3 +1,6 @@
+from importlib.resources import files
+import resources
+
 from discord import File
 
 ApiTranslate = {
@@ -25,25 +28,25 @@ class ImagesObj:
   AHelpIcon = "attachment://HelpIcon.png"
   AInfoIcon = "attachment://InfoIcon.png"
   def ShieldCheck(self):
-    return File("./resources/ShieldCheck.png",filename="ShieldCheck.png")
+    return File(files(resources).joinpath("ShieldCheck.png"),filename="ShieldCheck.png")
   def ShieldCross(self):
-    return File("./resources/ShieldCross.png",filename="ShieldCross.png")
+    return File(files(resources).joinpath("ShieldCross.png"),filename="ShieldCross.png")
   def GreenShieldCheck(self):
-    return File("./resources/GreenShieldCheck.png",filename="GreenShieldCheck.png")
+    return File(files(resources).joinpath("GreenShieldCheck.png"),filename="GreenShieldCheck.png")
   def RedCross(self):
-    return File("./resources/RedCross.png",filename="RedCross.png")
+    return File(files(resources).joinpath("RedCross.png"),filename="RedCross.png")
   def SearchIcon(self):
-    return File("./resources/SearchIcon.png",filename="SearchIcon.png")
+    return File(files(resources).joinpath("SearchIcon.png"),filename="SearchIcon.png")
   def PriceIcon(self):
-    return File("./resources/PriceIcon.png",filename="PriceIcon.png")
+    return File(files(resources).joinpath("PriceIcon.png"),filename="PriceIcon.png")
   def PointsIcon(self):
-    return File("./resources/PointsIcon.png",filename="PointsIcon.png")
+    return File(files(resources).joinpath("PointsIcon.png"),filename="PointsIcon.png")
   def TornedIcon(self):
-    return File("./resources/Torned.png",filename="Torned.png")
+    return File(files(resources).joinpath("Torned.png"),filename="Torned.png")
   def HelpIcon(self):
-    return File("./resources/HelpIcon.png","HelpIcon.png")
+    return File(files(resources).joinpath("HelpIcon.png"),filename="HelpIcon.png")
   def InfoIcon(self):
-    return File("./resources/InfoIcon.png","InfoIcon.png")
+    return File(files(resources).joinpath("InfoIcon.png"),filename="InfoIcon.png")
 
 
 Images = ImagesObj()
