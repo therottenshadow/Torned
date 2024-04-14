@@ -5,5 +5,5 @@ cp ./src/*.py Pyz-Env/
 cp -r ./src/resources Pyz-Env
 cp ./src/cogs/*.py Pyz-Env/cogs
 pip install --isolated -r requirements.txt --target ./Pyz-Env
-python -m zipapp Pyz-Env -p "/usr/bin/env python3" -o Torned.pyz -c
+python -m zipapp Pyz-Env -m "main:main" -p "/usr/bin/env python3" -o Torned.pyz -c
 rm -r Pyz-Env
