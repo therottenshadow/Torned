@@ -8,5 +8,5 @@ class My_Cog(commands.Cog, name='Your Cog Name'):
   async def test(ctx):
     await ctx.send('test')
 
-def setup(bot):
-  bot.add_cog(My_Cog(bot))
+async def setup(bot):
+  await bot.add_cog(My_Cog(bot))
