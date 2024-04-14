@@ -1,5 +1,4 @@
 from importlib.resources import files
-import resources
 
 from discord import File
 
@@ -27,26 +26,56 @@ class ImagesObj:
   ATornedIcon = "attachment://Torned.png"
   AHelpIcon = "attachment://HelpIcon.png"
   AInfoIcon = "attachment://InfoIcon.png"
+  FShieldCheck = "ShieldCheck.png"
+  FShieldCross = "ShieldCross.png"
+  FGreenShieldCheck = "GreenShieldCheck.png"
+  FRedCross = "RedCross.png"
+  FSearchIcon = "SearchIcon.png"
+  FPriceIcon = "PriceIcon.png"
+  FPointsIcon = "PointsIcon.png"
+  FTorned = "Torned.png"
+  FHelpIcon = "HelpIcon.png"
+  FInfoIcon = "InfoIcon.png"
   def ShieldCheck(self):
-    return File(files(resources).joinpath("ShieldCheck.png"),filename="ShieldCheck.png")
+    return File(
+      files("resources").joinpath(self.FShieldCheck).open("rb"),
+      filename=self.FShieldCheck)
   def ShieldCross(self):
-    return File(files(resources).joinpath("ShieldCross.png"),filename="ShieldCross.png")
+    return File(
+      files("resources").joinpath(self.FShieldCross).open("rb"),
+      filename=self.FShieldCross)
   def GreenShieldCheck(self):
-    return File(files(resources).joinpath("GreenShieldCheck.png"),filename="GreenShieldCheck.png")
+    return File(
+      files("resources").joinpath(self.FGreenShieldCheck).open("rb"),
+      filename=self.FGreenShieldCheck)
   def RedCross(self):
-    return File(files(resources).joinpath("RedCross.png"),filename="RedCross.png")
+    return File(
+      files("resources").joinpath(self.FRedCross).open("rb"),
+      filename=self.FRedCross)
   def SearchIcon(self):
-    return File(files(resources).joinpath("SearchIcon.png"),filename="SearchIcon.png")
+    return File(
+      files("resources").joinpath(self.FSearchIcon).open("rb"),
+      filename=self.FSearchIcon)
   def PriceIcon(self):
-    return File(files(resources).joinpath("PriceIcon.png"),filename="PriceIcon.png")
+    return File(
+      files("resources").joinpath(self.FPriceIcon).open("rb"),
+      filename=self.FPriceIcon)
   def PointsIcon(self):
-    return File(files(resources).joinpath("PointsIcon.png"),filename="PointsIcon.png")
+    return File(
+      files("resources").joinpath(self.FPointsIcon).open("rb"),
+      filename=self.FPointsIcon)
   def TornedIcon(self):
-    return File(files(resources).joinpath("Torned.png"),filename="Torned.png")
+    return File(
+      files("resources").joinpath(self.FTorned).open("rb"),
+      filename=self.FTorned)
   def HelpIcon(self):
-    return File(files(resources).joinpath("HelpIcon.png"),filename="HelpIcon.png")
+    return File(
+      files("resources").joinpath(self.FHelpIcon).open("rb"),
+      filename=self.FHelpIcon)
   def InfoIcon(self):
-    return File(files(resources).joinpath("InfoIcon.png"),filename="InfoIcon.png")
+    return File(
+      files("resources").joinpath(self.FInfoIcon).open("rb"),
+      filename=self.FInfoIcon)
 
 
 Images = ImagesObj()
