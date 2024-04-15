@@ -7,11 +7,9 @@ from TornAPIWrapper import TornApiWrapper
 import Color
 from Functions import SanitizeSearchTerm,PriceAverageCalculator,PriceEmbedConstructor,SearchResultEmbedConstructor
 from Constants import Images
-from Classes import SanitizeError,ItemList
-from Config import Config
+from Classes import SanitizeError,ItemDb
 from Database import Db
 
-ItemDb = ItemList(Config.Torn["Torn API Key"])
 
 class TornCog(commands.Cog, name='Torn'):
   def __init__(self, bot):

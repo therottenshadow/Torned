@@ -6,6 +6,7 @@ from unidecode import unidecode
 
 from Config import Config
 
+
 class ItemList:
   def __init__(self, TornApiKey: str):
     self.TornApi = TornApiWrapper(api_key=TornApiKey)
@@ -26,8 +27,12 @@ class ItemList:
   def SearchById(self,Id: str) -> dict:
     return {Id:self.Dic[Id]}
 
+
 class SanitizeError(Exception):
   def __init__(self, value):
     self.value = value
   def __str__(self):
     return repr(self.value)
+
+
+ItemDb = ItemList(Config.Torn["Torn API Key"])
