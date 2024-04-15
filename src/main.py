@@ -23,3 +23,6 @@ def main():
       await Bot.load_extension(f"cogs.{Cog}")
 
   Bot.run(Config.Bot["Discord Token"])
+
+if __name__ == "__main__":
+  main()
