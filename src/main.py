@@ -17,11 +17,9 @@ def main():
   Intents.message_content = True
   Bot = commands.Bot(command_prefix=Config.Bot["Command Prefix"],intents=Intents)
 
-
   @Bot.event
   async def on_ready():
     for Cog in CogsList:
       await Bot.load_extension(f"cogs.{Cog}")
-
 
   Bot.run(Config.Bot["Discord Token"])
