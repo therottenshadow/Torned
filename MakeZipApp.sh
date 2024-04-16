@@ -1,9 +1,9 @@
 #!/bin/bash
-mkdir --parents Pyz-Env/cogs
-cp LICENSE README.md Pyz-Env/
-cp ./src/*.py Pyz-Env/
-cp -r ./src/resources Pyz-Env
-cp ./src/cogs/*.py Pyz-Env/cogs
+mkdir -v --parents Pyz-Env/cogs
+cp -v LICENSE README.md Pyz-Env/
+cp -v ./src/*.py Pyz-Env/
+cp -vr ./src/resources Pyz-Env
+cp  -v ./src/cogs/*.py Pyz-Env/cogs
 pip install --isolated -r requirements.txt --target ./Pyz-Env
 python -m zipapp Pyz-Env -m "main:main" -p "/usr/bin/env python3" -o Torned.pyz -c
-rm -r Pyz-Env
+rm -vr Pyz-Env
