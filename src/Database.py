@@ -19,6 +19,10 @@ class DB():
     self.session.commit()
   def SearchByDisId(self, DiscordId: int = 0):
     return self.session.query(User).filter(User.DiscordUserId == DiscordId).first()
+  def UpdateAllUsers(self):
+    Query = self.session.query(User).all()
+    for UserObj in Query:
+      UserObj.Populate()
 
 Db = DB(join("sqlite:///",Config.Bot["Database Location"]))
 

@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import NoReturn
+from random import randint
 
 from TornAPIWrapper import TornApiWrapper
 from unidecode import unidecode
@@ -12,12 +13,19 @@ class ItemList:
     self.TornApi = TornApiWrapper(api_key=TornApiKey)
     self.Dic = {}
     self.UpdateTime = None
+    self.NextUpdateTime = None
     self.UpdateItemList()
   def UpdateItemList(self) -> NoReturn:
     self.ApiData = self.TornApi.get_torn(selections=["items"])["items"]
     for Id in self.ApiData:
       self.Dic[Id] = self.ApiData[Id]
-    self.UpdateTime = datetime.now()
+    self.UpdateTime = datetime.utcnow().timestamp()
+    self.NextUpdateTime = datetime.utcnow().replace(
+      day=datetime.utcnow().day+1,
+      hour=0,
+      minute=randint(1,15),
+      second=0,
+      microsecond=0).timestamp()
   def SearchByString(self, String: str) -> list:
     ResultList = []
     for Item in self.Dic:
