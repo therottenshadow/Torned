@@ -71,5 +71,32 @@ class UsersCog(commands.Cog, name='Users'):
       .set_thumbnail(url=Images.AGreenShieldCheck)
       .set_author(name="Verification Successful",icon_url=Images.ATornedIcon))
 
+  @commands.command(
+    aliases=["Deverify","deauth","de-auth"],
+    description="This command will remove your Torn API key from our database, allowing you to set another key or have peace of mind if you are leaving this discord")
+  async def deverify(self, ctx):
+    """Removes your Torn API key"""
+    AuthorId = ctx.message.author.id
+    Query = Db.SearchByDisId(AuthorId)
+    if Query is None or Query.TornApiKey == "":
+      await ctx.reply(
+        files=[Images.ShieldCross(),Images.TornedIcon()],
+        embed=Embed(
+          description="I am sorry but it seems you haven't ever completed the verification process or you have already removed your API key.",
+          color=Color.Red)
+        .set_thumbnail(url=Images.AShieldCross)
+        .set_author(name="De-Verification Failed",icon_url=Images.ATornedIcon))
+      return
+    Query.TornApiKey = ""
+    Query.Populate()
+    Db.Commit()
+    await ctx.reply(
+      files=[Images.ShieldCheck(),Images.TornedIcon()],
+      embed=Embed(
+        description="Your Torn API key has been deleted successfully.",
+        color=Color.Green)
+      .set_thumbnail(url=Images.AShieldCheck)
+      .set_author(name="De-Verification Completed",icon_url=Images.ATornedIcon))
+
 async def setup(bot):
   await bot.add_cog(UsersCog(bot))

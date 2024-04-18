@@ -23,6 +23,9 @@ class DB():
     Query = self.session.query(User).all()
     for UserObj in Query:
       UserObj.Populate()
+  def DeleteObject(self,QueryObject):
+    self.session.delete(QueryObject)
+    self.session.commit()
 
 Db = DB(join("sqlite:///",Config.Bot["Database Location"]))
 
@@ -36,12 +39,16 @@ class User(Db.Base):
   TornFactionPos = Column(String(),default="")
   def Populate(self):
     if self.TornApiKey == "":
-      return
-    self.TornApi = TornApiWrapper(api_key=self.TornApiKey)
-    self.TornProfileData = self.TornApi.get_user(selections=["profile"])
-    self.TornUserId = self.TornProfileData["player_id"]
-    self.TornName = self.TornProfileData["name"]
-    self.TornFactionId = self.TornProfileData["faction"]["faction_id"]
-    self.TornFactionPos = self.TornProfileData["faction"]["position"]
+      self.TornUserId = 0
+      self.TornName = ""
+      self.TornFactionId = 0
+      self.TornFactionPos = ""
+    else:
+      self.TornApi = TornApiWrapper(api_key=self.TornApiKey)
+      self.TornProfileData = self.TornApi.get_user(selections=["profile"])
+      self.TornUserId = self.TornProfileData["player_id"]
+      self.TornName = self.TornProfileData["name"]
+      self.TornFactionId = self.TornProfileData["faction"]["faction_id"]
+      self.TornFactionPos = self.TornProfileData["faction"]["position"]
 
 Db.Base.metadata.create_all(Db.engine)
