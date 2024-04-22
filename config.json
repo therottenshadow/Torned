@@ -5,6 +5,27 @@
   "Bot":{
     "Discord Token": "",
     "Command Prefix": "",
+    "Server ID": 0,
     "Database Location": "./database.db"
+  },
+  "User Management":{
+    "Faction ID to Discord Role":[
+      {
+        "Faction ID": 0,
+        "Role": 0
+      },{
+        "Faction ID": 0,
+        "Role": 0
+      }
+    ],
+    "Faction Position to Discord Role":[
+      {
+        "Position": "Leader",
+        "Role": 0
+      },{
+        "Position": "Co-Leader",
+        "Role": 0
+      }
+    ]
   }
 }

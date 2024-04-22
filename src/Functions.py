@@ -86,7 +86,7 @@ def PriceEmbedConstructor(ItemName: str, ItemId: str, ResultsDict: dict) -> str:
     """)
 
 def SanitizeTornKey(DirtyString: str) -> str:
-  DirtyString = unidecode(DirtyString).lower()
+  DirtyString = unidecode(DirtyString)
   if len(DirtyString) == 0:
     raise SanitizeError("NullString")
   if len(DirtyString) != 16:

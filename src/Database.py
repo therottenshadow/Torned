@@ -17,12 +17,15 @@ class DB():
     self.session.commit()
   def Commit(self):
     self.session.commit()
+  def ReturnAllUsers(self):
+    return self.session.query(User).all()
   def SearchByDisId(self, DiscordId: int = 0):
     return self.session.query(User).filter(User.DiscordUserId == DiscordId).first()
   def UpdateAllUsers(self):
     Query = self.session.query(User).all()
     for UserObj in Query:
       UserObj.Populate()
+    Db.Commit()
   def DeleteObject(self,QueryObject):
     self.session.delete(QueryObject)
     self.session.commit()

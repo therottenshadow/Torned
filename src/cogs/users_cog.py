@@ -8,6 +8,8 @@ import Color
 from Functions import SanitizeTornKey
 from Classes import SanitizeError
 from Database import Db,User
+from Config import Config
+from cogs.background_cog import BackgroundCog
 
 class UsersCog(commands.Cog, name='Users'):
   def __init__(self, bot):
@@ -59,10 +61,17 @@ class UsersCog(commands.Cog, name='Users'):
         .set_thumbnail(url=Images.AShieldCross)
         .set_author(name="Verification Failed",icon_url=Images.ATornedIcon))
       return
-    InvokingUser = User(DiscordUserId=AuthorId,TornApiKey=ApiKey)
-    InvokingUser.Populate()
-    Db.AddAndCommit(InvokingUser)
-    del InvokingUser
+    elif Query.DiscordUserId is not None:
+      Query.TornApiKey = ApiKey
+      Query.Populate()
+      Db.Commit()
+    else:
+      InvokingUser = User(DiscordUserId=AuthorId,TornApiKey=ApiKey)
+      InvokingUser.Populate()
+      Db.AddAndCommit(InvokingUser)
+      del InvokingUser
+    DisMember = ctx.guild.get_member(AuthorId)
+    await BackgroundCog.VerifyRoles(DisMember,ctx.guild)
     await ctx.reply(
       files=[Images.GreenShieldCheck(),Images.TornedIcon()],
       embed=Embed(
@@ -90,6 +99,8 @@ class UsersCog(commands.Cog, name='Users'):
     Query.TornApiKey = ""
     Query.Populate()
     Db.Commit()
+    DisMember = ctx.guild.get_member(AuthorId)
+    await BackgroundCog.VerifyRoles(DisMember,ctx.guild)
     await ctx.reply(
       files=[Images.ShieldCheck(),Images.TornedIcon()],
       embed=Embed(
