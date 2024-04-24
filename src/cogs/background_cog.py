@@ -41,6 +41,10 @@ class BackgroundCog(commands.Cog, name='Background Tasks'):
     for FPosRole in Config.UserMan["Faction Position to Discord Role"]:
       if FPosRole["Position"] == Query.TornFactionPos and FPosRole["Role"] not in [x.id for x in MemberObj.roles]:
         await MemberObj.add_roles(GuildObj.get_role(FPosRole["Role"]),reason="Member meets role criteria")
+    TornNameTemp = f'{Query.TornName} [{Query.TornUserId}]'
+    if MemberObj.nick != TornNameTemp:
+      print(f"Changing {MemberObj.id} 's nickname from {MemberObj.nick} to {TornNameTemp}")
+      await MemberObj.edit(nick=TornNameTemp,reason="Member was not using his Torn Username and ID as Nick")
 
   @tasks.loop(hours=1)
   async def UpdateUsers(self):
