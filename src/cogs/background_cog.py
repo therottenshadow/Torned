@@ -21,12 +21,16 @@ class BackgroundCog(commands.Cog, name='Background Tasks'):
     ItemDb.UpdateItemList()
 
   async def VerifyDiscordName(self, MemberObj, Query):
+    if not(Config.Modules["Name Enforcing"]):
+      return
     TornNameTemp = f'{Query.TornName} [{Query.TornUserId}]'
     if MemberObj.nick != TornNameTemp:
       print(f"Changing {MemberObj.id} 's nickname from {MemberObj.nick} to {TornNameTemp}")
       await MemberObj.edit(nick=TornNameTemp,reason="Member was not using his Torn Username and ID as Nick")
 
   async def VerifyRoles(self,MemberObj,GuildObj):
+    if not(Config.Modules["User Management"]):
+      return
     Query = Db.SearchByDisId(MemberObj.id)
     for UserRole in MemberObj.roles:
       for FIDRole in Config.UserMan["Faction ID to Discord Role"]:
