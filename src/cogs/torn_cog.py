@@ -16,7 +16,8 @@ class TornCog(commands.Cog, name='Torn'):
     self.bot = bot
 
   @commands.command(
-    aliases=["lookup","Lookup","Search"],
+    aliases=["Search","lookup","Lookup"],
+    usage="[Item Name or Item ID Number]",
     description="This command serves to search the list of existing Torn items whether you are unsure about the item's name or you want to double check some information about the item.")
   async def search(self, ctx, *, SearchString: str = None) -> None:
     """Search for a Torn item and it's information"""
@@ -112,6 +113,7 @@ class TornCog(commands.Cog, name='Torn'):
 
   @commands.command(
     aliases=["Price"],
+    usage="[Item Name or Item ID Number]",
     description="This command allows you to get the price of the lowest sell order, average of 5 sell orders and highest sell order for an item on the item market or bazaar. This command needs you to have completed the verification process by using /verify.")
   async def price(self, ctx, *, SearchString: str = None) -> None:
     """Get Item market and Bazaar price averages for an item"""

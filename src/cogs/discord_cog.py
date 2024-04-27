@@ -31,9 +31,9 @@ class DiscordCog(commands.Cog, name='Discord'):
     self.bot.help_command = self._original_help_command
 
   @commands.command(
-    aliases=["info","information"],
+    aliases=["Info","information"],
     description="Shows a description of the bot, how to know more about commands and a link to the GitHub repository")
-  async def Info(self, ctx) -> NoReturn:
+  async def info(self, ctx) -> NoReturn:
     """Shows information about the code I am running!"""
     await ctx.reply(
       files=[Images.TornedIcon(),Images.InfoIcon()],
