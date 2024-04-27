@@ -47,7 +47,7 @@ class BackgroundCog(commands.Cog, name='Background Tasks'):
     for FPosRole in Config.UserMan["Faction Position to Discord Role"]:
       if FPosRole["Position"] == Query.TornFactionPos and FPosRole["Role"] not in [x.id for x in MemberObj.roles]:
         await MemberObj.add_roles(GuildObj.get_role(FPosRole["Role"]),reason="Member meets role criteria")
-    await VerifyDiscordName(MemberObj,Query)
+    await self.VerifyDiscordName(MemberObj,Query)
 
   @tasks.loop(hours=1)
   async def UpdateUsers(self):
