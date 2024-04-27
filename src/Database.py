@@ -35,6 +35,7 @@ Db = DB(join("sqlite:///",Config.Bot["Database Location"]))
 class User(Db.Base):
   __tablename__ = "Users"
   DiscordUserId = Column(Integer,primary_key=True)
+  DiscordNick = Column(String(),default="")
   TornApiKey = Column(String(16),default="")
   TornUserId = Column(Integer,default=0)
   TornName = Column(String(),default="")

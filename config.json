@@ -9,8 +9,11 @@
     "Database Location": "./database.db"
   },
   "Modules":{
-    "User Management": 1,
-    "Name Enforcing": 1
+    "User Management": true,
+    "Name Enforcing": true,
+    "Nicks": true
+  },
+  "Misc Module Config":{
   },
   "User Management":{
     "Faction ID to Discord Role":[

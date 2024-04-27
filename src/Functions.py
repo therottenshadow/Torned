@@ -7,6 +7,8 @@ from unidecode import unidecode
 
 from Classes import SanitizeError
 from Constants import ApiTranslate
+from Config import Config
+from Database import Db
 
 def SearchResultEmbedConstructor(ResultList: list) -> dict:
   ResultingEmbed = {"Message":"","ImageUrl":""}
@@ -94,7 +96,7 @@ def SanitizeTornKey(DirtyString: str) -> str:
     raise SanitizeError("NullString")
   if len(DirtyString) != 16:
     raise SanitizeError("IncorrectLength")
-  elif bool(re.search("[^A-Za-z0-9]",DirtyString)):
+  elif bool(re.search("[^A-Za-z0-9]", DirtyString)):
     raise SanitizeError("IllegalCharacters")
   else:
     try:
@@ -106,6 +108,55 @@ def SanitizeTornKey(DirtyString: str) -> str:
 
 def SanitizeSearchTerm(DirtyString: str) -> str:
   DirtyString = unidecode(DirtyString).lower()
-  if bool(re.search("[^A-Za-z0-9-:&/+,!?'’ ]",DirtyString)):
+  if bool(re.search("[^A-Za-z0-9-:&/+,!?'’ ]", DirtyString)):
     raise SanitizeError("IllegalCharacters")
   return DirtyString
+
+def SanitizeDiscordNick(DirtyString: str) -> str:
+  if len(DirtyString) > 20:
+    raise SanitizeError("NickTooLong")
+  return DirtyString
+
+async def VerifyDiscordName(MemberObj, Query):
+  if not(Config.Modules["Name Enforcing"]):
+    return
+  if Query.DiscordNick != "":
+    TornNameTemp = f'{Query.DiscordNick} [{Query.TornUserId}]'
+  else: TornNameTemp = f'{Query.TornName} [{Query.TornUserId}]'
+  if Query.TornApiKey == "" and Query.TornName == "":
+    if Query.DiscordNick != "":
+      await MemberObj.edit(nick=Query.DiscordNick, reason="Change Member's nick to their chosen nick (no Torn verification)")
+    else:
+      print(f"Removing {MemberObj.id} 's nickname")
+      await MemberObj.edit(nick="", reason="Remove Member's nick")
+  elif MemberObj.nick != TornNameTemp:
+    print(f"Changing {MemberObj.id} 's nickname from {MemberObj.nick} to {TornNameTemp}")
+    await MemberObj.edit(nick=TornNameTemp, reason="Member was not using his Torn Username and ID as Nick")
+
+async def VerifyRoles(MemberObj, GuildObj):
+  if not(Config.Modules["User Management"]):
+    return
+  Query = Db.SearchByDisId(MemberObj.id)
+  for UserRole in MemberObj.roles:
+    for FIDRole in Config.UserMan["Faction ID to Discord Role"]:
+      if UserRole.id == FIDRole["Role"]:
+        if FIDRole["Faction ID"] == Query.TornFactionId:
+          pass
+        else:
+          await MemberObj.remove_roles(UserRole, reason="Member no longer meets role criteria")
+    for FPosRole in Config.UserMan["Faction Position to Discord Role"]:
+      if UserRole.id == FPosRole["Role"]:
+        if FPosRole["Position"] == Query.TornFactionPos:
+          pass
+        else:
+          await MemberObj.remove_roles(UserRole,reason="Member no longer meets role criteria")
+  for FIDRole in Config.UserMan["Faction ID to Discord Role"]:
+    if FIDRole["Faction ID"] == Query.TornFactionId and FIDRole["Role"] not in [x.id for x in MemberObj.roles]:
+      await MemberObj.add_roles(
+        GuildObj.get_role(FIDRole["Role"]),
+        reason="Member meets role criteria")
+  for FPosRole in Config.UserMan["Faction Position to Discord Role"]:
+    if FPosRole["Position"] == Query.TornFactionPos and FPosRole["Role"] not in [x.id for x in MemberObj.roles]:
+      await MemberObj.add_roles(
+        GuildObj.get_role(FPosRole["Role"]),
+        reason="Member meets role criteria")

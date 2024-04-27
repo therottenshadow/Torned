@@ -5,7 +5,7 @@ from discord.ext import commands
 
 from Constants import Images
 import Color
-from Functions import SanitizeTornKey
+from Functions import SanitizeTornKey, VerifyDiscordName, VerifyRoles, SanitizeDiscordNick
 from Classes import SanitizeError
 from Database import Db,User
 from Config import Config
@@ -62,17 +62,20 @@ class UsersCog(commands.Cog, name='Users'):
         .set_thumbnail(url=Images.AShieldCross)
         .set_author(name="Verification Failed",icon_url=Images.ATornedIcon))
       return
-    elif Query.DiscordUserId is not None:
-      Query.TornApiKey = ApiKey
-      Query.Populate()
-      Db.Commit()
+    elif Query is not None:
+      if Query.DiscordUserId is not None:
+        Query.TornApiKey = ApiKey
+        Query.Populate()
+        Db.Commit()
     else:
       InvokingUser = User(DiscordUserId=AuthorId,TornApiKey=ApiKey)
       InvokingUser.Populate()
       Db.AddAndCommit(InvokingUser)
       del InvokingUser
-    DisMember = ctx.guild.get_member(AuthorId)
-    await BackgroundCog.VerifyRoles(DisMember,ctx.guild)
+    GuildInst = self.bot.get_guild(Config.Bot["Server ID"])
+    DisMember = GuildInst.get_member(AuthorId)
+    await VerifyRoles(DisMember, GuildInst)
+    await VerifyDiscordName(DisMember, Db.SearchByDisId(AuthorId))
     await ctx.reply(
       files=[Images.GreenShieldCheck(),Images.TornedIcon()],
       embed=Embed(
@@ -100,8 +103,10 @@ class UsersCog(commands.Cog, name='Users'):
     Query.TornApiKey = ""
     Query.Populate()
     Db.Commit()
-    DisMember = ctx.guild.get_member(AuthorId)
-    await BackgroundCog.VerifyRoles(DisMember,ctx.guild)
+    GuildInst = self.bot.get_guild(Config.Bot["Server ID"])
+    DisMember = GuildInst.get_member(AuthorId)
+    await VerifyRoles(DisMember, GuildInst)
+    await VerifyDiscordName(DisMember, Query)
     await ctx.reply(
       files=[Images.ShieldCheck(),Images.TornedIcon()],
       embed=Embed(
@@ -109,6 +114,48 @@ class UsersCog(commands.Cog, name='Users'):
         color=Color.Green)
       .set_thumbnail(url=Images.AShieldCheck)
       .set_author(name="De-Verification Completed",icon_url=Images.ATornedIcon))
+
+  @commands.command(
+    enabled=Config.Modules["Nicks"],
+    aliases=["ChangeNick","changenick","nick"],
+    usage="[New Nick]",
+    description="This command allows you to add a nick that will go in front of your Torn username and ID, in the form of '[Nick] AKA [Torn username] [Torn ID]'")
+  async def Nick(self, ctx, *, Nickname: str = None):
+    """Adds a nick to your Discord name"""
+    if Nickname is None:
+      await ctx.reply(
+        files=[Images.TornedIcon()],
+        embed=Embed(
+          description="With this command you can change your Torn username to a chosen nickname, that can be up to 20 characters in length, you will still have your Torn user ID at the end of your name",
+          color=Color.Red)
+        .set_thumbnail(url=Images.ATornedIcon)
+        .set_author(name="Nickname Change"))
+      return
+    try:
+      Nickname = SanitizeDiscordNick(Nickname)
+    except SanitizeError:
+      await ctx.reply(
+        files=[Images.TornedIcon(),Images.RedCross()],
+        embed=Embed(
+          description="Sorry, your nickname can only be up to 20 characters in length, due to Discord's 32 character limitation",
+          color=Color.Red)
+        .set_thumbnail(url=Images.ARedCross)
+        .set_author(name="Invalid Nickname",icon_url=Images.ATornedIcon))
+      return
+    AuthorId = ctx.message.author.id
+    Query = Db.SearchByDisId(AuthorId)
+    Query.DiscordNick = Nickname
+    Db.Commit()
+    GuildInst = self.bot.get_guild(Config.Bot["Server ID"])
+    DisMember = GuildInst.get_member(AuthorId)
+    await VerifyDiscordName(DisMember, Query)
+    await ctx.reply(
+        files=[Images.TornedIcon()],
+        embed=Embed(
+          description="Your nickname has been changed successfully",
+          color=Color.Blue)
+        .set_thumbnail(url=Images.ATornedIcon)
+        .set_author(name="Nickname Change",icon_url=Images.ATornedIcon))
 
 async def setup(bot):
   await bot.add_cog(UsersCog(bot))
