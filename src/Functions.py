@@ -131,7 +131,7 @@ async def VerifyDiscordName(MemberObj, Query):
       await MemberObj.edit(nick="", reason="Remove Member's nick")
   elif MemberObj.nick != TornNameTemp:
     print(f"Changing {MemberObj.id} 's nickname from {MemberObj.nick} to {TornNameTemp}")
-    await MemberObj.edit(nick=TornNameTemp, reason="Member was not using his Torn Username and ID as Nick")
+    await MemberObj.edit(nick=TornNameTemp, reason="Member was not using his Torn Username or chosen nick and ID as Discord nick")
 
 async def VerifyRoles(MemberObj, GuildObj):
   if not(Config.Modules["User Management"]):
