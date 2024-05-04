@@ -150,12 +150,12 @@ class UsersCog(commands.Cog, name='Users'):
     DisMember = GuildInst.get_member(AuthorId)
     await VerifyDiscordName(DisMember, Query)
     await ctx.reply(
-        files=[Images.TornedIcon()],
+        files=[Images.TornedIcon(), Images.GreenCheck()],
         embed=Embed(
           description="Your nickname has been changed successfully",
           color=Color.Blue)
-        .set_thumbnail(url=Images.ATornedIcon)
-        .set_author(name="Nickname Change",icon_url=Images.ATornedIcon))
+        .set_thumbnail(url=Images.AGreenCheck)
+        .set_author(name="Nickname Change", icon_url=Images.ATornedIcon))
 
 async def setup(bot):
   await bot.add_cog(UsersCog(bot))
