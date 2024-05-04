@@ -16,16 +16,6 @@ ApiTranslate = {
 }
 
 class ImagesObj:
-  AShieldCheck = "attachment://ShieldCheck.png"
-  AShieldCross = "attachment://ShieldCross.png"
-  AGreenShieldCheck = "attachment://GreenShieldCheck.png"
-  ARedCross = "attachment://RedCross.png"
-  ASearchIcon = "attachment://SearchIcon.png"
-  APriceIcon = "attachment://PriceIcon.png"
-  APointsIcon = "attachment://PointsIcon.png"
-  ATornedIcon = "attachment://Torned.png"
-  AHelpIcon = "attachment://HelpIcon.png"
-  AInfoIcon = "attachment://InfoIcon.png"
   FShieldCheck = "ShieldCheck.png"
   FShieldCross = "ShieldCross.png"
   FGreenShieldCheck = "GreenShieldCheck.png"
@@ -36,6 +26,18 @@ class ImagesObj:
   FTorned = "Torned.png"
   FHelpIcon = "HelpIcon.png"
   FInfoIcon = "InfoIcon.png"
+  FGreenCheck = "GreenCheck.png"
+  AShieldCheck = f"attachment://{self.FShieldCheck}"
+  AShieldCross = f"attachment://{self.FShieldCross}"
+  AGreenShieldCheck = f"attachment://{self.FGreenShieldCheck}"
+  ARedCross = f"attachment://{self.FRedCross}"
+  ASearchIcon = f"attachment://{self.FSearchIcon}"
+  APriceIcon = f"attachment://{self.FPriceIcon}"
+  APointsIcon = f"attachment://{self.FPointsIcon}"
+  ATornedIcon = f"attachment://{self.FTorned}"
+  AHelpIcon = f"attachment://{self.FHelpIcon}"
+  AInfoIcon = f"attachment://{self.FInfoIcon}"
+  AGreenCheck = f"attachment://{self.FGreenCheck}"
   def ShieldCheck(self):
     return File(
       files("resources").joinpath(self.FShieldCheck).open("rb"),
@@ -76,6 +78,10 @@ class ImagesObj:
     return File(
       files("resources").joinpath(self.FInfoIcon).open("rb"),
       filename=self.FInfoIcon)
+  def GreenCheck(self):
+    return File(
+      files("resources").joinpath(self.FGreenCheck).open("rb"),
+      filename=self.FGreenCheck)
 
 
 Images = ImagesObj()
