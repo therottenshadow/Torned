@@ -5,7 +5,7 @@ from discord.ext import commands
 
 from Constants import Images
 import Color
-from Functions import SanitizeTornKey, VerifyDiscordName, VerifyRoles, SanitizeDiscordNick
+from Functions import SanitizeTornKey, VerifyDiscordName, VerifyRoles, SanitizeDiscordNick, is_member, is_access_1
 from Classes import SanitizeError
 from Database import Db,User
 from Config import Config
@@ -120,6 +120,8 @@ class UsersCog(commands.Cog, name='Users'):
     aliases=["ChangeNick","changenick","nick"],
     usage="[New Nick]",
     description="This command allows you to add a nick that will go in front of your Torn username and ID, in the form of '[Nick] AKA [Torn username] [Torn ID]'")
+  @commands.check(is_member)
+  @commands.check(is_access_1)
   async def Nick(self, ctx, *, Nickname: str = None):
     """Adds a nick to your Discord name"""
     if Nickname is None:

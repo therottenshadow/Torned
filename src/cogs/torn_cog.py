@@ -5,9 +5,9 @@ from discord.ext import commands
 from TornAPIWrapper import TornApiWrapper
 
 import Color
-from Functions import SanitizeSearchTerm,PriceAverageCalculator,PriceEmbedConstructor,SearchResultEmbedConstructor
+from Functions import SanitizeSearchTerm, PriceAverageCalculator, PriceEmbedConstructor, SearchResultEmbedConstructor, is_member, is_access_1
 from Constants import Images
-from Classes import SanitizeError,ItemDb
+from Classes import SanitizeError, ItemDb
 from Database import Db
 
 
@@ -19,6 +19,8 @@ class TornCog(commands.Cog, name='Torn'):
     aliases=["Search","lookup","Lookup"],
     usage="[Item Name or Item ID Number]",
     description="This command serves to search the list of existing Torn items whether you are unsure about the item's name or you want to double check some information about the item.")
+  @commands.check(is_member)
+  @commands.check(is_access_1)
   async def search(self, ctx, *, SearchString: str = None) -> None:
     """Search for a Torn item and it's information"""
     if SearchString is None:
@@ -115,6 +117,8 @@ class TornCog(commands.Cog, name='Torn'):
     aliases=["Price"],
     usage="[Item Name or Item ID Number]",
     description="This command allows you to get the price of the lowest sell order, average of 5 sell orders and highest sell order for an item on the item market or bazaar. This command needs you to have completed the verification process by using /verify.")
+  @commands.check(is_member)
+  @commands.check(is_access_1)
   async def price(self, ctx, *, SearchString: str = None) -> None:
     """Get Item market and Bazaar price averages for an item"""
     if SearchString is None:
@@ -216,6 +220,8 @@ class TornCog(commands.Cog, name='Torn'):
   @commands.command(
     aliases=["point","Points","Point"],
     description="This commands allows you to query the first 5 sell orders for points on the points market and get their price per point, quantity and total price. This command needs you to have completed the verification process by using /verify.")
+  @commands.check(is_member)
+  @commands.check(is_access_1)
   async def points(self, ctx) -> None:
     """Get the information of the first 5 sell orders of points on the point market"""
     AuthorId = ctx.message.author.id

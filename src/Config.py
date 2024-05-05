@@ -12,6 +12,7 @@ class GetConfig:
     self.UserMan = {}
     self.Modules = {}
     self.MiscModConf = {}
+    self.Access = {}
     self.ReadFromDisk()
   def DecideConfigFile(self):
     if exists(join(self.Cwd,"./config_dev.json")):
@@ -27,6 +28,7 @@ class GetConfig:
     self.RawData["User Management"] = self.UserMan
     self.RawData["Modules"] = self.Modules
     self.RawData["Misc Module Config"] = self.MiscModConf
+    self.RawData["Access Levels"] = self.Access
     with open(self.File,"w") as File:
       json.dump(self.RawData,File)
       File.close()
@@ -39,6 +41,7 @@ class GetConfig:
     self.UserMan = self.RawData["User Management"]
     self.Modules = self.RawData["Modules"]
     self.MiscModConf = self.RawData["Misc Module Config"]
+    self.Access = self.RawData["Access Levels"]
 
 try:
   Config = GetConfig()

@@ -8,7 +8,8 @@ CogsList = [
   "torn_cog",
   "users_cog",
   "bot_cog",
-  "background_cog"
+  "background_cog",
+  "self_cog"
 ]
 
 

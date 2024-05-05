@@ -4,6 +4,7 @@ from typing import NoReturn
 
 from TornAPIWrapper import TornApiWrapper
 from unidecode import unidecode
+from discord import User
 
 from Classes import SanitizeError
 from Constants import ApiTranslate
@@ -160,3 +161,58 @@ async def VerifyRoles(MemberObj, GuildObj):
       await MemberObj.add_roles(
         GuildObj.get_role(FPosRole["Role"]),
         reason="Member meets role criteria")
+
+def is_access_4(ctx):
+  GuildObj = ctx.bot.get_guild(Config.Bot["Server ID"])
+  if GuildObj.owner is not None:
+    if ctx.author.id == GuildObj.owner.id:
+      return True
+  if isinstance(ctx.author,User): MemberObj = GuildObj.get_member(ctx.author.id)
+  else: MemberObj = ctx.author
+  for Role in MemberObj.roles:
+    if Role.id in Config.Access["4"]: return True
+  return False
+
+def is_access_3(ctx):
+  if is_access_4(ctx): return True
+  GuildObj = ctx.bot.get_guild(Config.Bot["Server ID"])
+  if GuildObj.owner is not None:
+    if ctx.author.id == GuildObj.owner.id:
+      return True
+  if isinstance(ctx.author,User): MemberObj = GuildObj.get_member(ctx.author.id)
+  else: MemberObj = ctx.author
+  for Role in MemberObj.roles:
+    if Role.id in Config.Access["3"]: return True
+  return False
+
+def is_access_2(ctx):
+  if is_access_3(ctx): return True
+  elif is_access_4(ctx): return True
+  GuildObj = ctx.bot.get_guild(Config.Bot["Server ID"])
+  if GuildObj.owner is not None:
+    if ctx.author.id == GuildObj.owner.id:
+      return True
+  if isinstance(ctx.author,User): MemberObj = GuildObj.get_member(ctx.author.id)
+  else: MemberObj = ctx.author
+  for Role in MemberObj.roles:
+    if Role.id in Config.Access["2"]: return True
+  return False
+
+def is_access_1(ctx):
+  if is_access_2(ctx): return True
+  elif is_access_3(ctx): return True
+  elif is_access_4(ctx): return True
+  GuildObj = ctx.bot.get_guild(Config.Bot["Server ID"])
+  if GuildObj.owner is not None:
+    if ctx.author.id == GuildObj.owner.id:
+      return True
+  if isinstance(ctx.author,User): MemberObj = GuildObj.get_member(ctx.author.id)
+  else: MemberObj = ctx.author
+  for Role in MemberObj.roles:
+    if Role.id in Config.Access["1"]: return True
+  return False
+
+def is_member(ctx):
+  GuildObj = ctx.bot.get_guild(Config.Bot["Server ID"])
+  if GuildObj.get_member(ctx.author.id) is None: return False
+  else: return True
