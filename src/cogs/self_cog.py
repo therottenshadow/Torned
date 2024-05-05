@@ -1,7 +1,10 @@
+"""Cog file for functions regarding the discord.py library, stuff like event listeners"""
+
 from discord import Embed
 from discord.ext import commands
 
 from Constants import Images
+import Color
 
 
 class My_Cog(commands.Cog, name='Your Cog Name'):
@@ -13,7 +16,9 @@ class My_Cog(commands.Cog, name='Your Cog Name'):
     if isinstance(error, commands.CheckFailure):
       await ctx.reply(
         files=[Images.RedCross(),Images.TornedIcon()],
-        embed=Embed(description="Looks like you don't have enough permissions to use this command or you aren't in the same server as this bot")
+        embed=Embed(
+          description="Looks like you don't have enough permissions to use this command or you aren't in the same server as this bot",
+          color=Color.Red)
         .set_thumbnail(url=Images.ARedCross)
         .set_author(name="Permissions Fail",icon_url=Images.ATornedIcon))
     else: raise error

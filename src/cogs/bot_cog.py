@@ -1,3 +1,5 @@
+"""Cog file for commands concerning the bot itself"""
+
 from typing import NoReturn
 
 from discord.ext import commands

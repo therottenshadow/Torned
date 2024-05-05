@@ -1,3 +1,5 @@
+"""Cog file for commands that mainly concern Discord stuff"""
+
 from typing import NoReturn
 import inspect
 

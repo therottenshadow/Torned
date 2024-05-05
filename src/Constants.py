@@ -1,3 +1,5 @@
+"""File for declaring constant objects"""
+
 from importlib.resources import files
 
 from discord import File

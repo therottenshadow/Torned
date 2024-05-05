@@ -1,3 +1,5 @@
+"""File for handling the database"""
+
 from os.path import join
 
 from sqlalchemy import create_engine,Column,Integer,Numeric,String

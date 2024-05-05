@@ -1,3 +1,5 @@
+"""Cog file for commands concerning the users"""
+
 import inspect
 
 from discord import Embed
@@ -9,7 +11,6 @@ from Functions import SanitizeTornKey, VerifyDiscordName, VerifyRoles, SanitizeD
 from Classes import SanitizeError
 from Database import Db,User
 from Config import Config
-from cogs.background_cog import BackgroundCog
 
 class UsersCog(commands.Cog, name='Users'):
   def __init__(self, bot):
@@ -117,19 +118,19 @@ class UsersCog(commands.Cog, name='Users'):
 
   @commands.command(
     enabled=Config.Modules["Nicks"],
-    aliases=["ChangeNick","changenick","nick"],
+    aliases=["ChangeNick","changenick","Nick"],
     usage="[New Nick]",
     description="This command allows you to add a nick that will go in front of your Torn username and ID, in the form of '[Nick] AKA [Torn username] [Torn ID]'")
   @commands.check(is_member)
   @commands.check(is_access_1)
-  async def Nick(self, ctx, *, Nickname: str = None):
+  async def nick(self, ctx, *, Nickname: str = None):
     """Adds a nick to your Discord name"""
     if Nickname is None:
       await ctx.reply(
         files=[Images.TornedIcon()],
         embed=Embed(
           description="With this command you can change your Torn username to a chosen nickname, that can be up to 20 characters in length, you will still have your Torn user ID at the end of your name",
-          color=Color.Red)
+          color=Color.Blue)
         .set_thumbnail(url=Images.ATornedIcon)
         .set_author(name="Nickname Change"))
       return

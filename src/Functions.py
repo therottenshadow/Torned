@@ -1,3 +1,5 @@
+"""File for functions that commands may need"""
+
 import re
 import inspect
 from typing import NoReturn

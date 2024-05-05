@@ -1,3 +1,5 @@
+"""Cog file for functions running in the background constantly"""
+
 from discord import Role
 from discord.ext import commands, tasks
 

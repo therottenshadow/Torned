@@ -1,3 +1,5 @@
+"""Cog file for commands that concern pulling data from Torn API"""
+
 import inspect
 
 from discord import Embed

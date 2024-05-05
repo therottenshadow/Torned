@@ -1,3 +1,5 @@
+"""File where classes are defined"""
+
 from typing import NoReturn
 from random import randint
 

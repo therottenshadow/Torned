@@ -1,3 +1,5 @@
+"""File for declaring color variables"""
+
 Red = 0xe61e10
 Green = 0x0ad907
 Blue = 0x070ede
